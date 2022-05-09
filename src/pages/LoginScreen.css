@@ -1,0 +1,156 @@
+.center-container-login {
+    background: url("https://images.toubiz.de/image/big2/67831_04.jpg")no-repeat center top;
+    height: 100vh;
+    backdrop-filter: blur(4px);
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
+/*--header--*/
+.center-container-login .header-w3l {
+    padding-top: 2em;
+}
+.center-container-login .header-w3l h1 {
+    font-size: 3em;
+    color: white;
+    letter-spacing: 8px;
+    font-weight: 500;
+    font-family: 'Dosis', sans-serif;
+    text-transform: uppercase;
+    text-shadow: 5px 3px 5px #101010;
+}
+/*--//header--*/
+
+/*--main--*/
+.center-container-login .wthree-pro h2 {
+    font-size: 1.5em;
+    color: rgb(0, 0, 0);
+    letter-spacing: 4px;
+    margin-bottom: 1.5em;
+    text-transform: uppercase;
+}
+.center-container-login .sub-main-w3 input[type="text"], .sub-main-w3 input[type="password"] {
+    outline: none;
+    font-size: .9em;
+    padding: 1em 3em 1em 1em;
+    border: none;
+    margin-bottom: 0.3em;
+    background: rgba(255, 255, 255, 0.85);
+    width: 82%;
+    color: #000;
+    border-radius: 30px;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 1px;
+}
+.center-container-login .sub-main-w3 {
+    width: 50%;
+    margin: 10em auto 12em;
+}
+.sub-w3l h6 a {
+    margin-top: 2em;
+    font-size: .9em;
+    color: rgb(0, 0, 0);
+    letter-spacing: 1px;
+    text-align: center;
+    display: inherit;
+}
+.sub-w3l {
+    margin-top: 1em;
+}
+.right-w3l {
+    margin-top: 2em;
+    margin-bottom: 3em;
+}
+.right-w3l button {
+    color: rgb(255, 255, 255);
+    background: #b9230f;
+    border: none;
+    padding: .7em 0;
+    outline: none;
+    width: 44%;
+    font-size: 1em;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    border-radius: 30px;
+}
+.pom-agile {
+    position: relative;
+    padding-top: 17px;
+}
+input.pass {
+    margin-top: .7em;
+}
+span.icon1, span.icon2 {
+    color: #b9230f;
+    font-size: 1.1em;
+    position: absolute;
+    right: 14%;
+}
+span.icon1 {
+    top: 40%;
+    
+}
+span.icon2 {
+    top: 50%;
+}
+.sub-main-w3 input[type="submit"] {
+    color: rgb(255, 255, 255);
+    background: #b9230f;
+    border: none;
+    padding: .7em 0;
+    outline: none;
+    width: 44%;
+    font-size: 1em;
+    cursor: pointer;
+    letter-spacing: 1px;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    border-radius: 30px;
+}
+.sub-main-w3 input[type="submit"]:hover {
+    background: #fff;
+    color: black;
+    transition:0.5s all;
+    -webkit-transition:0.5s all;
+    -o-transition:0.5s all;
+    -moz-transition:0.5s all;
+    -ms-transition:0.5s all;
+}
+.container-login{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+.login-form{
+    width: 600px;
+    background-color: rgba(248, 213, 179, 0.829);
+    border-radius: 20px;
+    box-shadow: 2px 10px #888888;
+}
+
+.container-login .error-message {
+    color: red;
+}
+.link-register {
+    margin-top: 50px;
+    text-align: center;
+}
