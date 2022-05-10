@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "./pages/Login";
 import ThemeConfig from "./components/theme";
 import Page404 from "./pages/Page404";
+import Alo from "./pages/Alo";
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<Login />} />
-            {/* <Route path="/dashboard" element={<Alo />} />
-          <Route path="/disease" element={<Disease />} />
+            <Route path="/dashboard" element={<Alo />} />
+            {/* <Route path="/disease" element={<Disease />} />
           <Route path="/symptom" element={<Symptom />} />
           <Route path="/food" element={<Food />} /> */}
             <Route path="*" element={<Page404 />} />
