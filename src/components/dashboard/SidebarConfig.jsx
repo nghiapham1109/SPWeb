@@ -15,11 +15,11 @@ const sidebarConfig = [
     path: '/disease',
     icon: <img style={{height:22,width:22}} src='images/coronavirus.png'/>
   },
-  // {
-  //   title: 'symptom',
-  //   path: '/symptom',
-  //   icon: <img style={{height:22,width:22}} src='images/injection.png'/>
-  // },
+  {
+    title: 'symptom',
+    path: '/symptom',
+    icon: <img style={{height:22,width:22}} src='images/injection.png'/>
+  },
   // {
   //   title: 'food',
   //   path: '/food',
