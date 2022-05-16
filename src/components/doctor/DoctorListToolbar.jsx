@@ -39,13 +39,13 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-DiseaseListToolbar.propTypes = {
+SymptomListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func
 };
 
-export default function DiseaseListToolbar({ numSelected, filterName, onFilterName }) {
+export default function SymptomListToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <RootStyle
       sx={{
@@ -63,7 +63,7 @@ export default function DiseaseListToolbar({ numSelected, filterName, onFilterNa
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search Disease..."
+          placeholder="Search Doctor..."
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />

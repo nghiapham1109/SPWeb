@@ -6,7 +6,8 @@ import ThemeConfig from "./components/theme";
 import Page404 from "./pages/Page404";
 import Alo from "./pages/Alo";
 import Disease from "./pages/Disease";
-import Symptom from "./pages/Symptom";
+import Doctor from "./pages/Doctor";
+import DoctorHandle from "./pages/DoctorHandle";
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Alo />} />
             <Route path="/disease" element={<Disease />} />
-            <Route path="/symptom" element={<Symptom />} />
-            {/* <Route path="/food" element={<Food />} /> */}
+            <Route path="/doctor" element={<Doctor />} />
+            <Route path="/doctorhandle" element={<DoctorHandle />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </div>

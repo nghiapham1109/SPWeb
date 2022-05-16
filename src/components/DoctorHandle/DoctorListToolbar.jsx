@@ -63,7 +63,7 @@ export default function SymptomListToolbar({ numSelected, filterName, onFilterNa
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search symptom..."
+          placeholder="Search Doctor..."
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
