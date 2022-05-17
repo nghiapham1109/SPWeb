@@ -20,11 +20,6 @@ const sidebarConfig = [
     path: "/daybusy",
     icon: <img style={{ height: 22, width: 22 }} src="images/booking.png" />,
   },
-  // {
-  //   title: 'food',
-  //   path: '/food',
-  //   icon: getIcon(foodCake16Filled)
-  // },
 ];
 
 export default sidebarConfig;

@@ -8,7 +8,8 @@ import Alo from "./pages/Alo";
 import Disease from "./pages/Disease";
 import Doctor from "./pages/Doctor";
 import DoctorHandle from "./pages/DoctorHandle";
-
+import Appointment from "./pages/Appointment";
+import Busyday from "./pages/Busyday";
 function App() {
   return (
     <ThemeConfig>
@@ -19,7 +20,8 @@ function App() {
             <Route path="/dashboard" element={<Alo />} />
             <Route path="/disease" element={<Disease />} />
             <Route path="/doctor" element={<Doctor />} />
-            <Route path="/doctorhandle" element={<DoctorHandle />} />
+            <Route path="/daybusy" element={<Busyday />} />
+            <Route path="/appointment" element={<Appointment />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </div>

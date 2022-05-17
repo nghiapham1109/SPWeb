@@ -23,14 +23,11 @@ import SymptomListToolbar from "../components/doctor/DoctorListToolbar";
 import SymptomListHead from "../components/doctor/DoctorListHead";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import { Icon } from "@iconify/react";
-import Appointment from "./Appointment";
-export default function Alo(props) {
+export default function Appointment(props) {
   return (
     <ThemeConfig>
       <DashboardLayout>
-        <p>Hi, Welcome Back PhD. Nguyen Van A</p>
-        <Appointment />
-        {/* <Container style={{ maxHeight: 550 }}>
+        <Container style={{ maxHeight: 550 }}>
           <Stack
             direction="row"
             alignItems="center"
@@ -40,7 +37,7 @@ export default function Alo(props) {
             <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
               Appointment
             </Typography>
-            <Button
+            {/* <Button
               sx={{ backgroundColor: "#00AB55" }}
               variant="contained"
               to="#"
@@ -50,7 +47,7 @@ export default function Alo(props) {
               // }}
             >
               New Appointment
-            </Button>
+            </Button> */}
           </Stack>
           <Flexbox flexDirection="row" flex="1" flexWrap="wrap">
             <div
@@ -118,7 +115,7 @@ export default function Alo(props) {
               <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
             </div>
           </Flexbox>
-        </Container> */}
+        </Container>
       </DashboardLayout>
     </ThemeConfig>
   );
