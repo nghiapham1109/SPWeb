@@ -64,7 +64,7 @@ export default function Busyday(props) {
                 elevation: 10,
               }}
             >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
+              <Flexbox flexGrow={1}>You have appointment at 14:15 in Thursday</Flexbox>
             </div>
             <div
               style={{
@@ -76,7 +76,7 @@ export default function Busyday(props) {
                 backgroundColor: "#BFF1E5",
               }}
             >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
+              <Flexbox flexGrow={1}>You have appointment at 16:15 in Thursday</Flexbox>
             </div>
             <div
               style={{
@@ -88,7 +88,7 @@ export default function Busyday(props) {
                 backgroundColor: "#BFF1E5",
               }}
             >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
+              <Flexbox flexGrow={1}>You have appointment at 11:15 in Friday</Flexbox>
             </div>
             <div
               style={{
@@ -100,7 +100,7 @@ export default function Busyday(props) {
                 backgroundColor: "#BFF1E5",
               }}
             >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
+              <Flexbox flexGrow={1}>You have appointment at 13:15 in Friday</Flexbox>
             </div>
             <div
               style={{
@@ -112,7 +112,7 @@ export default function Busyday(props) {
                 backgroundColor: "#BFF1E5",
               }}
             >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
+              <Flexbox flexGrow={1}>You have appointment at 16:30 in Friday</Flexbox>
             </div>
           </Flexbox>
         </Container>

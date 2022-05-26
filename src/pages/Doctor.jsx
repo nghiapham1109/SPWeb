@@ -35,8 +35,9 @@ import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_SYMPTOM } from "../constants/symptomConstants";
 const TABLE_HEAD = [
-  { id: "id", label: "Id", alignRight: false },
-  { id: "name", label: "Name", alignRight: false },
+  { id: "IDDoctor", label: "ID", alignRight: false },
+  { id: "NameDoctor", label: "Name", alignRight: false },
+  { id: "Hospital", label: "Hospital", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 
@@ -51,13 +52,13 @@ function descendingComparator(a, b, orderBy) {
   }
   return 0;
 }
-
+//
 function getComparator(order, orderBy) {
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
-
+//
 function applySortFilter(array, comparator, query) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -82,16 +83,36 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const StyledTablePagination = withStyles((theme) => ({
-  root: {
-    "& .MuiTablePagination-toolbar": {
-      position: "relative !important",
-      marginRight: 90,
-    },
-  },
-}))(TablePagination);
+// const StyledTablePagination = withStyles((theme) => ({
+//   root: {
+//     "& .MuiTablePagination-toolbar": {
+//       position: "relative !important",
+//       marginRight: 90,
+//     },
+//   },
+// }))(TablePagination);
 
 export default function Symptom(props) {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/doctor")
+      .then((response) => response.json())
+      .then((json) => {
+        //vjp
+        // ong code render 1 item di bro :v
+        // ko, sua code duoi kia ay
+        // la sao border
+        setData(json.data);
+        console.log(json.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+  }, []);
   // const symptomList = useSelector(state => state.symptomList);
   // const { symptoms, loading, error } = symptomList;
   //   const dispatch = useDispatch();
@@ -104,6 +125,7 @@ export default function Symptom(props) {
   const [orderBy, setOrderBy] = useState("id");
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
+  //
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -190,7 +212,6 @@ export default function Symptom(props) {
   };
   return (
     <DashboardLayout>
-      {/* {<AddSymptomDialog open={openAdd} onClose={handleCloseAdd} />} */}
       {
         <Snackbar
           autoHideDuration={2000}
@@ -261,13 +282,6 @@ export default function Symptom(props) {
             New Doctor
           </Button>
         </Stack>
-        {/* {loading ? (
-          <ReactLoading
-            className="load"
-            type="spinningBubbles"
-            color="lightgreen"
-          />
-        ) : (        )} */}
         <Card>
           <SymptomListToolbar
             numSelected={selected.length}
@@ -286,64 +300,31 @@ export default function Symptom(props) {
                 onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
-                {/* {filteredDisease})} */}
-                {/* .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row) => {
-                                        const { id, name, diseases, description } = row;
-                                        const isItemSelected = selected.indexOf(name) !== -1;
-                                        return (); */}
-                <StyledTableRow
-                  hover
-                  // key={id}
-                  // tabIndex={-1}
-                  // role="checkbox"
-                  // selected={isItemSelected}
-                  // aria-checked={isItemSelected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                    // checked={isItemSelected}
-                    // onChange={(event) => handleClick(event, name)}
-                    />
-                  </TableCell>
-                  <TableCell align="left" width={100}>
-                    {/* {id} */}
-                  </TableCell>
-                  <TableCell align="left" width={750}>
-                    {/* {name} */}
-                  </TableCell>
-                  <TableCell align="left" width={100}>
-                    {/* <SymptomMoreMenu
-                      // onDelete={() => handleDelete(id)}
-                      // id={row.id}
-                      // name={row.name}
-                      // description={row.description}
-                      // diseases={row.diseases}
-                      onClose={handleCloseEdit}
-                    /> */}
-                  </TableCell>
-                </StyledTableRow>
-                {/* {emptyRows > 0 && ( )}  * emptyRows*/}
+                {data.map((item, idx) => {
+                  return (
+                    <StyledTableRow key={idx} hover>
+                      <TableCell padding="checkbox">
+                        <Checkbox />
+                      </TableCell>
+                      <TableCell align="left" width={100}>
+                        {item.IDDoctor}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.NameDoctor}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.Hospital}
+                      </TableCell>
+                      <TableCell align="left" width={100}></TableCell>
+                    </StyledTableRow>
+                  );
+                })}
                 <TableRow style={{ height: 53 }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
-          <StyledTablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            // count={symptoms.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            SelectProps={{
-              inputProps: { "aria-label": "rows per page" },
-              native: true,
-            }}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            ActionsComponent={TablePaginationActions}
-          />
         </Card>
       </Container>
     </DashboardLayout>
