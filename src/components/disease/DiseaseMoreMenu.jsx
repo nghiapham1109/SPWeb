@@ -16,7 +16,7 @@ export default function DiseaseMoreMenu(props) {
   let [update, setUpdate] = useState(props.updated);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   let [openEdit, setOpenEdit] = useState(false)
   const handleOpenEditDialog = () => {
     setOpenEdit(true);

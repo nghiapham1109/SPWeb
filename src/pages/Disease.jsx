@@ -30,7 +30,7 @@ import {
 import Scrollbar from "../components/dashboard/Scrollbar";
 import SearchNotFound from "../components/SearchNotFound";
 import DiseaseListHead from "../components/disease/DiseaseListHead";
-// import DiseaseMoreMenu from "../components/disease/DiseaseMoreMenu";
+import DiseaseMoreMenu from "../components/disease/DiseaseMoreMenu";
 import DiseaseListToolbar from "../components/disease/DiseaseListToolbar";
 import TablePaginationActions from "../components/TablePagination";
 import { Icon } from "@iconify/react";
@@ -40,8 +40,8 @@ import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_DISEASE } from "../constants/diseaseConstants";
 const TABLE_HEAD = [
-  { id: "id", label: "Id", alignRight: false },
-  { id: "name", label: "Name", alignRight: false },
+  { id: "IDDisease", label: "ID", alignRight: false },
+  { id: "NameDisease", label: "Disease", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 
@@ -87,15 +87,23 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-const StyledTablePagination = withStyles((theme) => ({
-  root: {
-    "& .MuiTablePagination-toolbar": {
-      position: "relative !important",
-      marginRight: 90,
-    },
-  },
-}))(TablePagination);
 export default function Disease(props) {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/disease")
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json.data);
+        console.log(json.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+  }, []);
   // const diseaseList = useSelector((state) => state.diseaseList);
   // const { diseases, loading, error } = diseaseList;
   // const dispatch = useDispatch();
@@ -108,6 +116,7 @@ export default function Disease(props) {
   const [orderBy, setOrderBy] = useState("id");
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
+  //
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -138,27 +147,7 @@ export default function Disease(props) {
     }
     setSelected(newSelected);
   };
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const emptyRows =
-  //   page > 0 ? Math.max(0, (1 + page) * rowsPerPage - diseases.length) : 0;
-  // const [filterName, setFilterName] = useState("");
-  // const filteredDisease = applySortFilter(
-  //   diseases,
-  //   getComparator(order, orderBy),
-  //   filterName
-  // );
-  // const isDiseaseNotFound = diseases.length === 0;
   let [openAdd, setOpenAdd] = useState(false);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   const handleFilterByName = (event) => {
     // setFilterName(event.target.value);
@@ -275,13 +264,6 @@ export default function Disease(props) {
             New Disease
           </Button>
         </Stack>
-        {/* {loading ? (
-          <ReactLoading
-            className="load"
-            type="spinningBubbles"
-            color="lightgreen"
-          />
-        ) : ()        } */}
         <Card>
           <DiseaseListToolbar
             numSelected={selected.length}
@@ -292,7 +274,7 @@ export default function Disease(props) {
             <Table>
               <DiseaseListHead
                 headLabel={TABLE_HEAD}
-                // rowCount={diseases.length}
+                //   rowCount={symptoms.length}
                 order={order}
                 orderBy={orderBy}
                 numSelected={selected.length}
@@ -300,65 +282,30 @@ export default function Disease(props) {
                 onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
-                {/* {filteredDisease
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    const { id, name, symptoms, description } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
-                    return (                    );                  })} */}
-                <StyledTableRow
-                  hover
-                  // key={id}
-                  // tabIndex={-1}
-                  // role="checkbox"
-                  // selected={isItemSelected}
-                  // aria-checked={isItemSelected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                    // checked={isItemSelected}
-                    // onChange={(event) => handleClick(event, name)}
-                    />
-                  </TableCell>
-                  <TableCell align="left" width={100}>
-                    {/* {id} */}
-                  </TableCell>
-                  <TableCell align="left" width={750}>
-                    {/* {name} */}
-                  </TableCell>
-                  <TableCell align="left" width={100}>
-                    {/* <DiseaseMoreMenu
-                      // onDelete={() => handleDelete(id)}
-                      // id={row.id}
-                      // name={row.name}
-                      // description={row.description}
-                      // symptoms={row.symptoms}
-                      onClose={handleCloseEdit}
-                    /> */}
-                  </TableCell>
-                </StyledTableRow>
-
-                {/* {emptyRows > 0 && (                )}  * emptyRows */}
+                {data.map((item, idx) => {
+                  return (
+                    <StyledTableRow key={idx} hover>
+                      <TableCell padding="checkbox">
+                        <Checkbox />
+                      </TableCell>
+                      <TableCell align="left" width={100}>
+                        {item.IDDisease}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.NameDisease}
+                      </TableCell>
+                      <TableCell align="left" width={100}>
+                        <DiseaseMoreMenu />
+                      </TableCell>
+                    </StyledTableRow>
+                  );
+                })}
                 <TableRow style={{ height: 53 }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
-          <StyledTablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            // count={diseases.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            SelectProps={{
-              inputProps: { "aria-label": "rows per page" },
-              native: true,
-            }}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            ActionsComponent={TablePaginationActions}
-          />
         </Card>
       </Container>
     </DashboardLayout>
