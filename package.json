@@ -24,6 +24,7 @@
     "react-loading": "^2.0.3",
     "react-number-format": "^4.9.3",
     "react-redux": "^8.0.1",
+    "react-render-html": "^0.6.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-text-mask": "^5.4.3",

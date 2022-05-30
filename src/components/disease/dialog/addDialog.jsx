@@ -25,26 +25,20 @@ export function AddDiseaseDialog(props) {
   let [nameAdd, setNameAdd] = useState("");
   let [descriptionAdd, setDescriptionAdd] = useState("");
   let [symptomsAdd, setSymptomsAdd] = useState([]);
-  const dispatch = useDispatch();
-  const { success: successAdd } = useSelector((state) => state.diseaseAdd);
-  useEffect(() => {
-    setOpen(props.open);
-    dispatch(listSymptoms(0, 350));
-  }, [props.open]);
   const handleClose = () => {
     props.onClose();
   };
   const handleAdd = async () => {
-    if (nameValidate() && descriptionValidate()) {
-      await dispatch(
-        addDisease({
-          name: nameAdd,
-          description: descriptionAdd,
-          symptoms: symptomsAdd,
-        })
-      );
-      props.onClose(successAdd);
-    }
+    // if (nameValidate() && descriptionValidate()) {
+    //   await dispatch(
+    //     addDisease({
+    //       name: nameAdd,
+    //       description: descriptionAdd,
+    //       symptoms: symptomsAdd,
+    //     })
+    //   );
+    //   props.onClose(successAdd);
+    // }
   };
   const [nameError, setNameError] = useState("");
   const nameValidate = () => {
@@ -77,46 +71,18 @@ export function AddDiseaseDialog(props) {
         <Formik>
           <Form style={{ marginTop: 20 }}>
             <TextField
-              error={nameError}
-              helperText={nameError ? nameError : ""}
               id="outlined-multiline-flexible"
               label="Name of Disease"
-              onChange={(e) => {
-                setNameAdd(e.target.value);
-              }}
               sx={{ width: "100%" }}
             />
             <TextField
-              error={descriptionError}
-              helperText={descriptionError ? descriptionError : ""}
               id="outlined-multiline-flexible"
               label="Description"
               multiline
               minRows={4}
-              onChange={(e) => {
-                setDescriptionAdd(e.target.value);
-              }}
               sx={{ width: "100%", mt: 3 }}
             />
             {/* {symptoms && ()} */}
-            <Autocomplete
-              multiple
-              id="multiple-limit-tags"
-              limitTags={2}
-              // options={symptoms}
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Symptoms"
-                  placeholder="Symptoms"
-                />
-              )}
-              sx={{ mt: 3 }}
-              onChange={(event, value) => {
-                setSymptomsAdd(value);
-              }}
-            />
             <Box sx={{ mt: 3, textAlign: "right" }}>
               <Button
                 variant="outlinedInherit"

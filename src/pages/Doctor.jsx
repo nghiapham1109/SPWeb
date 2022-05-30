@@ -29,7 +29,7 @@ import TablePaginationActions from "../components/TablePagination";
 import { Icon } from "@iconify/react";
 import SymptomListToolbar from "../components/doctor/DoctorListToolbar";
 import SymptomListHead from "../components/doctor/DoctorListHead";
-// import SymptomMoreMenu from "../components/symptom/SymptomMoreMenu";
+import DoctorMoreMenu from "../components/doctor/DoctorMoreMenu";
 // import { AddSymptomDialog } from "../components/symptom/dialog/addDialog";
 import ReactLoading from "react-loading";
 import "./css/common.css";
@@ -38,6 +38,7 @@ const TABLE_HEAD = [
   { id: "IDDoctor", label: "ID", alignRight: false },
   { id: "NameDoctor", label: "Name", alignRight: false },
   { id: "Hospital", label: "Hospital", alignRight: false },
+  { id: "Specialist", label: "Specialist", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 
@@ -83,14 +84,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-// const StyledTablePagination = withStyles((theme) => ({
-//   root: {
-//     "& .MuiTablePagination-toolbar": {
-//       position: "relative !important",
-//       marginRight: 90,
-//     },
-//   },
-// }))(TablePagination);
 
 export default function Symptom(props) {
   const [data, setData] = useState([]);
@@ -113,15 +106,8 @@ export default function Symptom(props) {
         throw error;
       });
   }, []);
-  // const symptomList = useSelector(state => state.symptomList);
-  // const { symptoms, loading, error } = symptomList;
-  //   const dispatch = useDispatch();
-  let [currentPage, setCurrentPage] = useState(0);
-  let [limit, setLimit] = useState(1500);
   let [isUpdated, setUpdate] = useState(0);
-  //   useEffect(() => {
-  //     dispatch(listSymptoms(currentPage, limit));
-  //   }, [dispatch, isUpdated]);
+
   const [orderBy, setOrderBy] = useState("id");
   const [order, setOrder] = useState("asc");
   const [selected, setSelected] = useState([]);
@@ -139,52 +125,12 @@ export default function Symptom(props) {
     }
     setSelected([]);
   };
-  const handleDelete = async (id) => {
-    // await dispatch(deleteSymptom(id));
-    // setSuccessDelete(true);
-    // setUpdate(isUpdated + 1);
-  };
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
-  };
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  // const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - symptoms.length) : 0;
   const [filterName, setFilterName] = useState("");
-  // const filteredDisease = applySortFilter(symptoms, getComparator(order, orderBy), filterName);
-  // const isDiseaseNotFound = symptoms.length === 0;
+
   let [openAdd, setOpenAdd] = useState(false);
 
-  const handleCloseAdd = async (successAddForm) => {
-    if (successAddForm) {
-      await setSuccessAdd(true);
-    }
-    setOpenAdd(false);
-    setUpdate(isUpdated + 1);
-  };
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
-  };
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
@@ -315,13 +261,15 @@ export default function Symptom(props) {
                       <TableCell align="left" width={750}>
                         {item.Hospital}
                       </TableCell>
-                      <TableCell align="left" width={100}></TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.Specialist}
+                      </TableCell>
+                      <TableCell align="left" width={100}>
+                        <DoctorMoreMenu />
+                      </TableCell>
                     </StyledTableRow>
                   );
                 })}
-                <TableRow style={{ height: 53 }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
