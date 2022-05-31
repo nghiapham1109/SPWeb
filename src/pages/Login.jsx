@@ -1,6 +1,8 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
@@ -35,19 +37,38 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 }));
 //
 function Login(props) {
+  let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  //
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  //
+  axios.defaults.withCredentials = true;
+  const [loginStatus, setLoginStatus] = useState("");
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (emailError === "" && passwordError === "") {
-      await props.onLogin(email, password);
-
-      if (localStorage.getItem("token") !== null) {
-        window.location.href = "/dashboard";
+    axios
+      .post("http://localhost:8080/api/booking/login", {
+        Email: email,
+        Pw: password,
+      },{
+        withCredentials:false,
       }
-    }
+      )
+      .then((response) => {
+        if (!response.data.message) {
+          setLoginStatus(response.data.message);
+        } else {
+          setLoginStatus(response.data.token);
+          console.log(response.data.token);
+          localStorage.setItem("storeToken", response.data.token);
+        }
+        console.log(response.data.token);
+        if (localStorage.getItem("storeToken") !== null) {
+          navigate("/appointment", { replace: true });
+        }
+      });
   };
   const onTextBoxEmail = (event) => {
     const pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
@@ -129,7 +150,6 @@ function Login(props) {
               Forgot password?
             </Link>
           </Stack>
-
           <LoadingButton
             fullWidth
             size="large"

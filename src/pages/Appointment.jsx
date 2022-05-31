@@ -2,6 +2,7 @@ import DashboardLayout from "../components/dashboardDoctor/DashboardLayout";
 import ThemeConfig from "../components/theme";
 import { filter } from "lodash";
 import Flexbox from "flexbox-react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Table,
@@ -24,6 +25,26 @@ import SymptomListHead from "../components/doctor/DoctorListHead";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import { Icon } from "@iconify/react";
 export default function Appointment(props) {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8080/api/booking")
+      .then((response) => response.json())
+      .then((json) => {
+        //vjp
+        // ong code render 1 item di bro :v
+        // ko, sua code duoi kia ay
+        // la sao border
+        setData(json.data);
+        console.log(json.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+  }, []);
   return (
     <ThemeConfig>
       <DashboardLayout>
@@ -49,72 +70,28 @@ export default function Appointment(props) {
               New Appointment
             </Button> */}
           </Stack>
-          <Flexbox flexDirection="row" flex="1" flexWrap="wrap">
-            <div
-              style={{
-                flex: 1,
-                width: 300,
-                height: 300,
-                borderRadius: 10,
-                margin: 20,
-                backgroundColor: "#BFF1E5",
-                shadowColor: "rgba(0, 0, 0, 1)",
-                shadowOpacity: 100,
-                shadowRadius: 100,
-                elevation: 10,
-              }}
-            >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
-            </div>
-            <div
-              style={{
-                flex: 1,
-                width: 300,
-                height: 300,
-                borderRadius: 10,
-                margin: 20,
-                backgroundColor: "#BFF1E5",
-              }}
-            >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
-            </div>
-            <div
-              style={{
-                flex: 1,
-                width: 300,
-                height: 300,
-                borderRadius: 10,
-                margin: 20,
-                backgroundColor: "#BFF1E5",
-              }}
-            >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
-            </div>
-            <div
-              style={{
-                flex: 1,
-                width: 300,
-                height: 300,
-                borderRadius: 10,
-                margin: 20,
-                backgroundColor: "#BFF1E5",
-              }}
-            >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
-            </div>
-            <div
-              style={{
-                flex: 1,
-                width: 300,
-                height: 300,
-                borderRadius: 10,
-                margin: 20,
-                backgroundColor: "#BFF1E5",
-              }}
-            >
-              <Flexbox flexGrow={1}>You have appointment at 14:15</Flexbox>
-            </div>
-          </Flexbox>
+          {data.map((item, idx) => {
+            return (
+              <Flexbox flexDirection="row" flex="1" flexWrap="wrap">
+                <div
+                  style={{
+                    flex: 1,
+                    width: 300,
+                    height: 300,
+                    borderRadius: 10,
+                    margin: 20,
+                    backgroundColor: "#BFF1E5",
+                    shadowColor: "rgba(0, 0, 0, 1)",
+                    shadowOpacity: 100,
+                    shadowRadius: 100,
+                    elevation: 10,
+                  }}
+                >
+                  <Flexbox flexGrow={0}>{item.IDBooking}</Flexbox>
+                </div>
+              </Flexbox>
+            );
+          })}
         </Container>
       </DashboardLayout>
     </ThemeConfig>
