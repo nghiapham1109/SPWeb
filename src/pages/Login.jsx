@@ -49,12 +49,15 @@ function Login(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:8080/api/booking/login", {
-        Email: email,
-        Pw: password,
-      },{
-        withCredentials:false,
-      }
+      .post(
+        "http://localhost:8080/api/booking/login",
+        {
+          Email: email,
+          Pw: password,
+        },
+        {
+          withCredentials: false,
+        }
       )
       .then((response) => {
         if (!response.data.message) {
@@ -64,7 +67,7 @@ function Login(props) {
           console.log(response.data.token);
           localStorage.setItem("storeToken", response.data.token);
         }
-        console.log(response.data.token);
+        console.log("login", response.data.token);
         if (localStorage.getItem("storeToken") !== null) {
           navigate("/appointment", { replace: true });
         }

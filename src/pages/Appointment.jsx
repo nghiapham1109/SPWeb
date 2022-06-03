@@ -24,27 +24,35 @@ import SymptomListToolbar from "../components/doctor/DoctorListToolbar";
 import SymptomListHead from "../components/doctor/DoctorListHead";
 import plusFill from "@iconify/icons-eva/plus-fill";
 import { Icon } from "@iconify/react";
+import BackendAPI from "../api/HttpClient";
+import jwt_decode from "jwt-decode";
 export default function Appointment(props) {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch("http://localhost:8080/api/booking")
-      .then((response) => response.json())
+
+  const getBooking = () => {
+    const getToken = localStorage.getItem("storeToken");
+    const decode = jwt_decode(getToken);
+    const IDDoctor = decode.result.IDDoctor;
+    BackendAPI.get(`/api/booking/${IDDoctor}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
       .then((json) => {
-        //vjp
-        // ong code render 1 item di bro :v
-        // ko, sua code duoi kia ay
-        // la sao border
-        setData(json.data);
-        console.log(json.data);
+        setData(json.data.data);
+        console.log(json.data.data);
       })
       .catch((error) => {
         console.log(
           "There has been a problem with your fetch operation: " + error.message
         );
-        // ADD THIS THROW error
         throw error;
       });
+  };
+  useEffect(() => {
+    getBooking();
   }, []);
+
   return (
     <ThemeConfig>
       <DashboardLayout>
@@ -58,23 +66,14 @@ export default function Appointment(props) {
             <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
               Appointment
             </Typography>
-            {/* <Button
-              sx={{ backgroundColor: "#00AB55" }}
-              variant="contained"
-              to="#"
-              startIcon={<Icon sx={{ color: "black" }} icon={plusFill} />}
-              // onClick={() => {
-              //   handleOpenAddDialog();
-              // }}
-            >
-              New Appointment
-            </Button> */}
           </Stack>
           {data.map((item, idx) => {
             return (
-              <Flexbox flexDirection="row" flex="1" flexWrap="wrap">
-                <div
+              <Flexbox flexDirection="row" flex="1" flexWrap="wrap" key={idx}>
+                <Flexbox
+                  element="header"
                   style={{
+                    padding: 30,
                     flex: 1,
                     width: 300,
                     height: 300,
@@ -87,8 +86,8 @@ export default function Appointment(props) {
                     elevation: 10,
                   }}
                 >
-                  <Flexbox flexGrow={0}>{item.IDBooking}</Flexbox>
-                </div>
+                  {item.IDBooking} {item.IDDoctor} {item.TimeBooking} {item.Note}
+                </Flexbox>
               </Flexbox>
             );
           })}
