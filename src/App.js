@@ -10,6 +10,7 @@ import Doctor from "./pages/Doctor";
 import DoctorHandle from "./pages/DoctorHandle";
 import Appointment from "./pages/Appointment";
 import Busyday from "./pages/Busyday";
+import LoginAdmin from "./pages/LoginAdmin";
 function App() {
   return (
     <ThemeConfig>
@@ -17,6 +18,7 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/admin" element={<LoginAdmin />} />
             <Route path="/dashboard" element={<Alo />} />
             <Route path="/disease" element={<Disease />} />
             <Route path="/doctor" element={<Doctor />} />

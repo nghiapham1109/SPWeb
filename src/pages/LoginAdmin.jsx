@@ -36,7 +36,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
   margin: theme.spacing(2, 0, 2, 2),
 }));
 //
-function Login(props) {
+function LoginAdmin(props) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -100,7 +100,7 @@ function Login(props) {
           variant="h4"
           sx={{ px: 5, mt: 10, mb: 5, fontWeight: "bold" }}
         >
-          Hi, Welcome Back Doctor!
+          Hi, Welcome Back Administrator!
         </Typography>
         <img src="/images/logo.png" />
       </SectionStyle>
@@ -188,4 +188,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Login);
-export default Login;
+export default LoginAdmin;
