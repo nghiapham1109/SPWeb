@@ -31,6 +31,8 @@ import SymptomListToolbar from "../components/doctor/DoctorListToolbar";
 import SymptomListHead from "../components/doctor/DoctorListHead";
 import DoctorMoreMenu from "../components/doctor/DoctorMoreMenu";
 // import { AddSymptomDialog } from "../components/symptom/dialog/addDialog";
+import BackendAPI from "../api/HttpClient";
+import jwt_decode from "jwt-decode";
 import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_SYMPTOM } from "../constants/symptomConstants";
@@ -87,6 +89,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function Symptom(props) {
   const [data, setData] = useState([]);
+
+  const getDoctorByAdmin = () => {
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    const decode = jwt_decode(getToken);
+    const IDAdmin = decode.result.IDAdmin;
+    BackendAPI.get(`/api/booking/${IDAdmin}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        setData(json.data.data);
+        console.log(json.data.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
+  };
+  useEffect(() => {
+    getDoctorByAdmin();
+  }, []);
+  const [data1, setData1] = useState([]);
   useEffect(() => {
     fetch("http://localhost:8080/api/doctor")
       .then((response) => response.json())
@@ -95,7 +122,7 @@ export default function Symptom(props) {
         // ong code render 1 item di bro :v
         // ko, sua code duoi kia ay
         // la sao border
-        setData(json.data);
+        setData1(json.data);
         console.log(json.data);
       })
       .catch((error) => {
@@ -246,7 +273,7 @@ export default function Symptom(props) {
                 onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
-                {data.map((item, idx) => {
+                {data1.map((item, idx) => {
                   return (
                     <StyledTableRow key={idx} hover>
                       <TableCell padding="checkbox">

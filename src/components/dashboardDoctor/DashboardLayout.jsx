@@ -62,7 +62,7 @@ const renderContent = (
           <Avatar src="/images/avatar_default.jpg" alt="photoURL" />
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-              PhD. Nguyen Van A
+              Doctor. Nguyen Tat Binh
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>
               DOCTOR

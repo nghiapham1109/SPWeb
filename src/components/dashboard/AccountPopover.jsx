@@ -90,7 +90,7 @@ export default function AccountPopover() {
             Gage Pham
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            gage@enclave.vn
+            gage@gmail.com
           </Typography>
         </Box>
 

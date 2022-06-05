@@ -50,7 +50,7 @@ function LoginAdmin(props) {
     e.preventDefault();
     axios
       .post(
-        "http://localhost:8080/api/booking/login",
+        "http://localhost:8080/api/admin/login",
         {
           Email: email,
           Pw: password,
@@ -65,11 +65,11 @@ function LoginAdmin(props) {
         } else {
           setLoginStatus(response.data.token);
           console.log(response.data.token);
-          localStorage.setItem("storeToken", response.data.token);
+          localStorage.setItem("storeTokenAdmin", response.data.token);
         }
-        console.log("login", response.data.token);
-        if (localStorage.getItem("storeToken") !== null) {
-          navigate("/appointment", { replace: true });
+        console.log("loginAdmin", response.data.token);
+        if (localStorage.getItem("storeTokenAdmin") !== null) {
+          navigate("/doctor", { replace: true });
         }
       });
   };

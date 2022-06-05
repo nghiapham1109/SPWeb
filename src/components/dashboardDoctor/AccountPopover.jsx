@@ -79,10 +79,10 @@ export default function AccountPopover() {
         >
           <Box sx={{ my: 1.5, px: 2.5 }}>
             <Typography variant="subtitle1" noWrap>
-              PhD. Nguyen Van A
+              Doctor. Nguyen Tat Binh
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-              nva@gmail.com
+              ntb@gmail.com
             </Typography>
           </Box>
 
