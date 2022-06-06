@@ -37,7 +37,7 @@ import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_SYMPTOM } from "../constants/symptomConstants";
 const TABLE_HEAD = [
-  { id: "IDDoctor", label: "ID", alignRight: false },
+  // { id: "IDDoctor", label: "ID", alignRight: false },
   { id: "NameDoctor", label: "Name", alignRight: false },
   { id: "Hospital", label: "Hospital", alignRight: false },
   { id: "Specialist", label: "Specialist", alignRight: false },
@@ -101,7 +101,7 @@ export default function Symptom(props) {
     })
       .then((json) => {
         setData(json.data.data);
-        console.log(json.data.data);
+        // console.log(json.data.data);
       })
       .catch((error) => {
         console.log(
@@ -115,13 +115,15 @@ export default function Symptom(props) {
   }, []);
   const [data1, setData1] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8080/api/doctor")
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    const decode = jwt_decode(getToken);
+    fetch("http://localhost:8080/api/admin", {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
       .then((response) => response.json())
       .then((json) => {
-        //vjp
-        // ong code render 1 item di bro :v
-        // ko, sua code duoi kia ay
-        // la sao border
         setData1(json.data);
         console.log(json.data);
       })
@@ -183,6 +185,7 @@ export default function Symptom(props) {
     // dispatch({ type: REMOVE_SELECTED_SYMPTOM });
     // setSuccessDelete(false);
   };
+
   return (
     <DashboardLayout>
       {
@@ -273,12 +276,12 @@ export default function Symptom(props) {
                 onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
-                {data1.map((item, idx) => {
+                {data1?.map((item, idx, props) => {
                   return (
                     <StyledTableRow key={idx} hover>
-                      <TableCell padding="checkbox">
-                        <Checkbox />
-                      </TableCell>
+                      {/* <TableCell padding="checkbox">
+                        <Checkbox value={item.IDDoctor} />
+                      </TableCell> */}
                       <TableCell align="left" width={100}>
                         {item.IDDoctor}
                       </TableCell>
@@ -292,7 +295,7 @@ export default function Symptom(props) {
                         {item.Specialist}
                       </TableCell>
                       <TableCell align="left" width={100}>
-                        <DoctorMoreMenu />
+                        <DoctorMoreMenu IDDoctor={item.IDDoctor} />
                       </TableCell>
                     </StyledTableRow>
                   );

@@ -86,7 +86,8 @@ export default function Appointment(props) {
                     elevation: 10,
                   }}
                 >
-                  {item.IDBooking} {item.IDDoctor} {item.TimeBooking} {item.Note}
+                  ID: {item.IDBooking},Time: {item.TimeBooking}, Day (yyyy/mm/dd): {item.DayBooking}, 
+                  Note: {item.Note}, IDPatient: {item.IDPatient}
                 </Flexbox>
               </Flexbox>
             );
