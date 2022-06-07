@@ -25,7 +25,7 @@ export function EditSymptomDialog(props) {
   const [sex, setSex] = useState("");
   const [phone, setPhone] = useState("");
   const [homeAddress, setHomeAddress] = useState("");
-  const [hospital, setHospitals] = useState("");
+  const [hospital, setHospital] = useState("");
   const [hospitalAddress, setHospitalAddress] = useState("");
   const [image, setImage] = useState("");
   const [specialist, setSpecialist] = useState("");
@@ -41,14 +41,28 @@ export function EditSymptomDialog(props) {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
     const IDAdmin = decode.result.IDAdmin;
-    BackendAPI.patch(`/api/admin/${IDDoctor}`, {
+    const IDDoctor = decode.result.IDDoctor;
+    BackendAPI.put(`/api/admin/${IDDoctor}`, {
       headers: {
         Authorization: "Bearer " + getToken,
       },
+      body: JSON.stringify({
+        nameDoctor,
+        dayOfBirth,
+        sex,
+        phone,
+        homeAddress,
+        hospital,
+        hospitalAddress,
+        image,
+        specialist,
+        email,
+      }),
     })
       .then((json) => {
         setData(json.data.data);
-        // console.log(json.data.data);
+        console.log(IDAdmin);
+        console.log("EditDialogabc", json.data.data);
       })
       .catch((error) => {
         console.log(
@@ -96,60 +110,72 @@ export function EditSymptomDialog(props) {
                   label="Name of Doctor"
                   sx={{ width: "100%" }}
                   defaultValue={item.NameDoctor}
+                  onChange={(e) => setNameDoctor(e)}
                 ></TextField>
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Day of Birth"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.DayOfBirth}
+                  onChange={(e) => setDayOfBirth(e)}
                 ></TextField>
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Sex"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.sex}
+                  onChange={(e) => setSex(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Phone"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.Phone}
+                  onChange={(e) => setPhone(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Home Address"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.HomeAddress}
+                  onChange={(e) => setHomeAddress(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Specialist"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.Specialist}
+                  onChange={(e) => setSpecialist(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Hospital"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.Hospital}
+                  onChange={(e) => setHospital(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Hospital Address"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.HospitalAddress}
+                  onChange={(e) => {
+                    setHospitalAddress(e);
+                  }}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Image"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.Image}
+                  onChange={(e) => setImage(e)}
                 />
                 <TextField
                   id="outlined-multiline-flexible"
                   label="Email"
                   sx={{ width: "100%", mt: 3 }}
                   defaultValue={item.Email}
+                  onChange={(e) => setEmail(e)}
                 />
                 <Box sx={{ mt: 3, textAlign: "right" }}>
                   <Button
@@ -163,6 +189,9 @@ export function EditSymptomDialog(props) {
                     variant="outlined"
                     startIcon={<UpdateIcon />}
                     sx={{ ml: 3 }}
+                    onClick={(e) => {
+                      updateDoctor(e);
+                    }}
                   >
                     Update
                   </Button>

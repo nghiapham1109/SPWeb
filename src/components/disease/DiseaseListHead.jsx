@@ -31,13 +31,13 @@ export default function DiseaseListHead({
   return (
     <TableHead>
       <TableRow sx={{  backgroundColor: 'rgb(208, 242, 255)'}}>
-        <TableCell padding="checkbox">
+        {/* <TableCell padding="checkbox">
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
           />
-        </TableCell>
+        </TableCell> */}
         {headLabel.map((headCell) => (
           <TableCell
             sx={{fontWeight:"bold"}}
