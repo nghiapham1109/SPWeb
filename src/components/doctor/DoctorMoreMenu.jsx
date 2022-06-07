@@ -29,9 +29,9 @@ export default function SymptomMoreMenu(props) {
     setOpenEdit(true);
   };
   //
-  const handleCloseEdit = (isSuccessEdit) => {
+  const handleCloseEdit = () => {
     setOpenEdit(false);
-    props.onClose(isSuccessEdit);
+    props.onClose();
   };
   return (
     <>

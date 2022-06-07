@@ -30,6 +30,7 @@ export function EditSymptomDialog(props) {
   const [image, setImage] = useState("");
   const [specialist, setSpecialist] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   //
   const IDDoctor = props.IDDoctor;
@@ -39,30 +40,35 @@ export function EditSymptomDialog(props) {
   };
   const updateDoctor = () => {
     const getToken = localStorage.getItem("storeTokenAdmin");
+    console.log("Token", getToken);
     const decode = jwt_decode(getToken);
     const IDAdmin = decode.result.IDAdmin;
-    const IDDoctor = decode.result.IDDoctor;
-    BackendAPI.put(`/api/admin/${IDDoctor}`, {
+    const data = {
+      nameDoctor,
+      dayOfBirth,
+      sex,
+      phone,
+      homeAddress,
+      hospital,
+      hospitalAddress,
+      image,
+      specialist,
+      email,
+      password,
+    };
+    console.log("dataEdit", data);
+    console.log(IDDoctor);
+
+    BackendAPI.put(`/api/admin/${IDDoctor}`, data, {
       headers: {
         Authorization: "Bearer " + getToken,
       },
-      body: JSON.stringify({
-        nameDoctor,
-        dayOfBirth,
-        sex,
-        phone,
-        homeAddress,
-        hospital,
-        hospitalAddress,
-        image,
-        specialist,
-        email,
-      }),
     })
       .then((json) => {
-        setData(json.data.data);
-        console.log(IDAdmin);
-        console.log("EditDialogabc", json.data.data);
+        // setData(json.data.data);
+        // console.log(IDAdmin);
+        console.log(json);
+        // console.log("EditDialogabc", json.data.data);
       })
       .catch((error) => {
         console.log(
@@ -82,7 +88,18 @@ export function EditSymptomDialog(props) {
       .then((response) => response.json())
       .then((json) => {
         setData(json.data);
-        console.log("editDialog", json.data);
+        // console.log("editDialog", json.data);
+        setNameDoctor(json.data[0].NameDoctor);
+        setDayOfBirth(json.data[0].DayOfBirth);
+        setSex(json.data[0].sex);
+        setPhone(json.data[0].Phone);
+        setHomeAddress(json.data[0].HomeAddress);
+        setSpecialist(json.data[0].Specialist);
+        setHospital(json.data[0].Hospital);
+        setHospitalAddress(json.data[0].HospitalAddress);
+        setImage(json.data[0].Image);
+        setEmail(json.data[0].Email);
+        setPassword(json.data[0].Pw);
       })
       .catch((error) => {
         console.log(
@@ -101,105 +118,108 @@ export function EditSymptomDialog(props) {
       <DialogTitle id="form-dialog-title">Edit doctor</DialogTitle>
 
       <DialogContent sx={{ minWidth: 500 }}>
-        {data?.map((item, idx) => {
-          return (
-            <Formik key={idx}>
-              <Form style={{ marginTop: 20 }}>
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Name of Doctor"
-                  sx={{ width: "100%" }}
-                  defaultValue={item.NameDoctor}
-                  onChange={(e) => setNameDoctor(e)}
-                ></TextField>
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Day of Birth"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.DayOfBirth}
-                  onChange={(e) => setDayOfBirth(e)}
-                ></TextField>
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Sex"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.sex}
-                  onChange={(e) => setSex(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Phone"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.Phone}
-                  onChange={(e) => setPhone(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Home Address"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.HomeAddress}
-                  onChange={(e) => setHomeAddress(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Specialist"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.Specialist}
-                  onChange={(e) => setSpecialist(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Hospital"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.Hospital}
-                  onChange={(e) => setHospital(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Hospital Address"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.HospitalAddress}
-                  onChange={(e) => {
-                    setHospitalAddress(e);
-                  }}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Image"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.Image}
-                  onChange={(e) => setImage(e)}
-                />
-                <TextField
-                  id="outlined-multiline-flexible"
-                  label="Email"
-                  sx={{ width: "100%", mt: 3 }}
-                  defaultValue={item.Email}
-                  onChange={(e) => setEmail(e)}
-                />
-                <Box sx={{ mt: 3, textAlign: "right" }}>
-                  <Button
-                    variant="outlinedInherit"
-                    startIcon={<DeleteIcon />}
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    startIcon={<UpdateIcon />}
-                    sx={{ ml: 3 }}
-                    onClick={(e) => {
-                      updateDoctor(e);
-                    }}
-                  >
-                    Update
-                  </Button>
-                </Box>
-              </Form>
-            </Formik>
-          );
-        })}
+        <Formik>
+          <Form style={{ marginTop: 20 }}>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Name of Doctor"
+              sx={{ width: "100%" }}
+              defaultValue={nameDoctor}
+              onChange={(e) => setNameDoctor(e.target.value)}
+            ></TextField>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Day of Birth"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={dayOfBirth}
+              onChange={(e) => setDayOfBirth(e.target.value)}
+            ></TextField>
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Sex"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={sex}
+              onChange={(e) => setSex(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Phone"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Home Address"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={homeAddress}
+              onChange={(e) => setHomeAddress(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Specialist"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={specialist}
+              onChange={(e) => setSpecialist(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Hospital"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={hospital}
+              onChange={(e) => setHospital(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Hospital Address"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={hospitalAddress}
+              onChange={(e) => {
+                setHospitalAddress(e.target.value);
+              }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Image"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={image}
+              onChange={(e) => setImage(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Email"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Password"
+              sx={{ width: "100%", mt: 3 }}
+              defaultValue={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <Box sx={{ mt: 3, textAlign: "right" }}>
+              <Button
+                variant="outlinedInherit"
+                startIcon={<DeleteIcon />}
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="outlined"
+                startIcon={<UpdateIcon />}
+                sx={{ ml: 3 }}
+                onClick={() => {
+                  updateDoctor();
+                }}
+              >
+                Update
+              </Button>
+            </Box>
+          </Form>
+        </Formik>
       </DialogContent>
     </Dialog>
   );
