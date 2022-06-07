@@ -1,6 +1,7 @@
 import DashboardLayout from "../components/dashboard/DashboardLayout";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
 // import {
 //   deleteDisease,
 //   listDiseases,
@@ -60,7 +61,13 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function Disease(props) {
   const [data, setData] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:8080/api/disease")
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    const decode = jwt_decode(getToken);
+    fetch("http://localhost:8080/api/admin/disease", {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
       .then((response) => response.json())
       .then((json) => {
         setData(json.data);
@@ -82,9 +89,12 @@ export default function Disease(props) {
 
   let [openAdd, setOpenAdd] = useState(false);
 
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
+  };
+  const handleCloseAddDialog = () => {
+    setOpenAdd(false);
+    props.onClose();
   };
   //
   const [successEdit, setSuccessEdit] = useState(false);
@@ -123,6 +133,7 @@ export default function Disease(props) {
   };
   return (
     <DashboardLayout>
+      {<AddDiseaseDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
       {
         <Snackbar
           autoHideDuration={2000}
@@ -194,24 +205,14 @@ export default function Disease(props) {
           </Button>
         </Stack>
         <Card>
-          <DiseaseListToolbar
-            numSelected={selected.length}
-          />
+          <DiseaseListToolbar numSelected={selected.length} />
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
-              <DiseaseListHead
-                headLabel={TABLE_HEAD}
-                order={order}
-                orderBy={orderBy}
-                numSelected={selected.length}
-              />
+              <DiseaseListHead headLabel={TABLE_HEAD} />
               <TableBody>
-                {data.map((item, idx) => {
+                {data?.map((item, idx) => {
                   return (
                     <StyledTableRow key={idx} hover>
-                      <TableCell padding="checkbox">
-                        <Checkbox />
-                      </TableCell>
                       <TableCell align="left" width={100}>
                         {item.IDDisease}
                       </TableCell>

@@ -31,7 +31,6 @@ export function EditSymptomDialog(props) {
   const [specialist, setSpecialist] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   //
   const IDDoctor = props.IDDoctor;
   //
@@ -65,10 +64,7 @@ export function EditSymptomDialog(props) {
       },
     })
       .then((json) => {
-        // setData(json.data.data);
-        // console.log(IDAdmin);
         console.log(json);
-        // console.log("EditDialogabc", json.data.data);
       })
       .catch((error) => {
         console.log(
@@ -88,7 +84,6 @@ export function EditSymptomDialog(props) {
       .then((response) => response.json())
       .then((json) => {
         setData(json.data);
-        // console.log("editDialog", json.data);
         setNameDoctor(json.data[0].NameDoctor);
         setDayOfBirth(json.data[0].DayOfBirth);
         setSex(json.data[0].sex);
@@ -105,7 +100,6 @@ export function EditSymptomDialog(props) {
         console.log(
           "There has been a problem with your fetch operation: " + error.message
         );
-        // ADD THIS THROW error
         throw error;
       });
   }, [IDDoctor]);

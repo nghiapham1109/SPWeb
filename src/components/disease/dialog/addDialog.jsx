@@ -11,58 +11,20 @@ import {
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { listSymptoms } from "../../../actions/symptomAction";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { addDisease } from "../../../actions/diseaseAction";
 
 export function AddDiseaseDialog(props) {
-  const [open, setOpen] = React.useState(false);
-  // const symptomList = useSelector(state => state.symptomList);
-  // const { symptoms, loading, error } = symptomList;
-  let [nameAdd, setNameAdd] = useState("");
-  let [descriptionAdd, setDescriptionAdd] = useState("");
-  let [symptomsAdd, setSymptomsAdd] = useState([]);
+  const [open, setOpen] = useState(false);
   const handleClose = () => {
-    props.onClose();
+    props.onCloseAdd();
   };
-  const handleAdd = async () => {
-    // if (nameValidate() && descriptionValidate()) {
-    //   await dispatch(
-    //     addDisease({
-    //       name: nameAdd,
-    //       description: descriptionAdd,
-    //       symptoms: symptomsAdd,
-    //     })
-    //   );
-    //   props.onClose(successAdd);
-    // }
-  };
-  const [nameError, setNameError] = useState("");
-  const nameValidate = () => {
-    if (nameAdd.trim().length < 2 || nameAdd.trim().length > 50) {
-      setNameError("Name length from 2 - 50 characters ");
-      return false;
-    } else {
-      setNameError("");
-      return true;
-    }
-  };
+  const handleAdd = async () => {};
   const [descriptionError, setdescriptionError] = useState("");
-  const descriptionValidate = () => {
-    if (descriptionAdd.trim().length < 5 || descriptionAdd.trim().length > 50) {
-      setdescriptionError("Description length from 5 - 50 characters ");
-      return false;
-    } else {
-      setdescriptionError("");
-      return true;
-    }
-  };
   return (
     <Dialog
-      open={open}
+      open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
@@ -82,7 +44,69 @@ export function AddDiseaseDialog(props) {
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
             />
-            {/* {symptoms && ()} */}
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Symptoms"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Cause"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Risk"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Complication"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Preparing"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Test"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Treatment"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Life Style"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
+            <TextField
+              id="outlined-multiline-flexible"
+              label="Prevention"
+              multiline
+              minRows={4}
+              sx={{ width: "100%", mt: 3 }}
+            />
             <Box sx={{ mt: 3, textAlign: "right" }}>
               <Button
                 variant="outlinedInherit"

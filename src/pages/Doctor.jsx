@@ -30,7 +30,7 @@ import { Icon } from "@iconify/react";
 import SymptomListToolbar from "../components/doctor/DoctorListToolbar";
 import SymptomListHead from "../components/doctor/DoctorListHead";
 import DoctorMoreMenu from "../components/doctor/DoctorMoreMenu";
-// import { AddSymptomDialog } from "../components/symptom/dialog/addDialog";
+import { AddSymptomDialog } from "../components/doctor/dialog/addDialog";
 import BackendAPI from "../api/HttpClient";
 import jwt_decode from "jwt-decode";
 import ReactLoading from "react-loading";
@@ -146,20 +146,17 @@ export default function Symptom(props) {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      // const newSelecteds = symptoms.map((n) => n.name);
-      // setSelected(newSelecteds);
-      // return;
-    }
-    setSelected([]);
-  };
+  //
   const [filterName, setFilterName] = useState("");
-
-  let [openAdd, setOpenAdd] = useState(false);
-
+  //
+  const [openAdd, setOpenAdd] = useState(false);
+  //
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
+  };
+  const handleCloseAddDialog = () => {
+    setOpenAdd(false);
+    props.onClose();
   };
   const handleFilterByName = (event) => {
     setFilterName(event.target.value);
@@ -167,27 +164,13 @@ export default function Symptom(props) {
   const [successEdit, setSuccessEdit] = useState(false);
   const [successAdd, setSuccessAdd] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
-  const handleCloseEdit = async (successEditForm) => {
-    if (successEditForm) {
-      await setSuccessEdit(true);
-    }
-    setUpdate(isUpdated + 1);
-  };
-  const handleCloseMessageEdit = () => {
-    // dispatch({ type: REMOVE_SELECTED_SYMPTOM });
-    // setSuccessEdit(false);
-  };
-  const handleCloseMessageAdd = () => {
-    // dispatch({ type: REMOVE_SELECTED_SYMPTOM });
-    // setSuccessAdd(false);
-  };
-  const handleCloseMessageDelete = () => {
-    // dispatch({ type: REMOVE_SELECTED_SYMPTOM });
-    // setSuccessDelete(false);
-  };
+  const handleCloseMessageEdit = () => {};
+  const handleCloseMessageAdd = () => {};
+  const handleCloseMessageDelete = () => {};
 
   return (
     <DashboardLayout>
+      {<AddSymptomDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
       {
         <Snackbar
           autoHideDuration={2000}
@@ -273,7 +256,6 @@ export default function Symptom(props) {
                 orderBy={orderBy}
                 numSelected={selected.length}
                 onRequestSort={handleRequestSort}
-                onSelectAllClick={handleSelectAllClick}
               />
               <TableBody>
                 {data1?.map((item, idx, props) => {
