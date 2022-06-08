@@ -15,6 +15,8 @@ import {
 import { deleteDisease } from "../../actions/diseaseAction";
 import { useDispatch } from "react-redux";
 import { EditSymptomDialog } from "./dialog/editDialog";
+import BackendAPI from "../../api/HttpClient";
+import jwt_decode from "jwt-decode";
 
 // ----------------------------------------------------------------------
 
@@ -23,7 +25,7 @@ export default function SymptomMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const {IDDoctor} = props;
+  const { IDDoctor } = props;
   //
   const handleOpenEditDialog = () => {
     setOpenEdit(true);
@@ -33,9 +35,35 @@ export default function SymptomMoreMenu(props) {
     setOpenEdit(false);
     props.onClose();
   };
+
+  const deleteDoctor = () => {
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    console.log("Token", getToken);
+    console.log("DoctorMoreMenu", IDDoctor);
+    BackendAPI.delete(`/api/admin/${IDDoctor}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
+  };
   return (
     <>
-      {<EditSymptomDialog open={openEdit} onCloseEdit={handleCloseEdit} IDDoctor={IDDoctor} />}
+      {
+        <EditSymptomDialog
+          open={openEdit}
+          onCloseEdit={handleCloseEdit}
+          IDDoctor={IDDoctor}
+        />
+      }
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Icon icon={moreVerticalFill} width={20} height={20} />
       </IconButton>
@@ -52,7 +80,7 @@ export default function SymptomMoreMenu(props) {
       >
         <MenuItem
           sx={{ color: "text.secondary" }}
-          onClick={() => props.onDelete()}
+          // onClick={() => props.onDelete()}
         >
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
@@ -60,6 +88,9 @@ export default function SymptomMoreMenu(props) {
           <ListItemText
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
+            onClick={() => {
+              deleteDoctor();
+            }}
           />
         </MenuItem>
 

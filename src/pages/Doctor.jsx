@@ -252,10 +252,6 @@ export default function Symptom(props) {
               <SymptomListHead
                 headLabel={TABLE_HEAD}
                 //   rowCount={symptoms.length}
-                order={order}
-                orderBy={orderBy}
-                numSelected={selected.length}
-                onRequestSort={handleRequestSort}
               />
               <TableBody>
                 {data1?.map((item, idx, props) => {
@@ -264,9 +260,6 @@ export default function Symptom(props) {
                       {/* <TableCell padding="checkbox">
                         <Checkbox value={item.IDDoctor} />
                       </TableCell> */}
-                      <TableCell align="left" width={100}>
-                        {item.IDDoctor}
-                      </TableCell>
                       <TableCell align="left" width={750}>
                         {item.NameDoctor}
                       </TableCell>
