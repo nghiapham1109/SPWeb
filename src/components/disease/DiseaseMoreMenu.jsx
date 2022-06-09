@@ -22,6 +22,7 @@ export default function DiseaseMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const { IDDisease } = props;
   //
   const handleOpenEditDialog = () => {
     console.log("1");
@@ -34,7 +35,13 @@ export default function DiseaseMoreMenu(props) {
   };
   return (
     <>
-      {<EditDiseaseDialog open={openEdit} onCloseEdit={handleCloseEdit} />}
+      {
+        <EditDiseaseDialog
+          open={openEdit}
+          onCloseEdit={handleCloseEdit}
+          IDDisease={IDDisease}
+        />
+      }
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Icon icon={moreVerticalFill} width={20} height={20} />
       </IconButton>

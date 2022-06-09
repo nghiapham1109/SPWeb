@@ -11,11 +11,10 @@ import { Form, Formik } from "formik";
 import UpdateIcon from "@mui/icons-material/Update";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
-import { listSymptoms } from "../../../actions/symptomAction";
-import { useDispatch, useSelector } from "react-redux";
-import { detailDisease, saveDisease } from "../../../actions/diseaseAction";
 
 export function EditDiseaseDialog(props) {
+  const IDDisease = props.IDDisease;
+  console.log(IDDisease);
   const handleClose = () => {
     props.onCloseEdit();
   };

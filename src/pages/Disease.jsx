@@ -63,6 +63,7 @@ export default function Disease(props) {
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
+    console.log("Disease", decode);
     fetch("http://localhost:8080/api/admin/disease", {
       headers: {
         Authorization: "Bearer " + getToken,
@@ -223,7 +224,7 @@ export default function Disease(props) {
                         {item.Decription}
                       </TableCell>
                       <TableCell align="left" width={100}>
-                        <DiseaseMoreMenu />
+                        <DiseaseMoreMenu IDDisease={item.IDDisease} />
                       </TableCell>
                     </StyledTableRow>
                   );
