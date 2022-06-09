@@ -33,6 +33,7 @@ const TABLE_HEAD = [
   { id: "TimeBooking", label: "Time", alignRight: false },
   { id: "Note", label: "Note", alignRight: false },
   { id: "DayBooking", label: "Day", alignRight: false },
+  { id: "NamePatient", label: "Name Patient", alignRight: false },
 ];
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
@@ -103,6 +104,9 @@ export default function Appointment(props) {
                       </TableCell>
                       <TableCell align="left" width={750}>
                         {item.Note}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.NamePatient}
                       </TableCell>
                     </StyledTableRow>
                   </TableBody>
