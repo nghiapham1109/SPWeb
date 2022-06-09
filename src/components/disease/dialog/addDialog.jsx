@@ -14,11 +14,61 @@ import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-
+import BackendAPI from "../../../api/HttpClient";
+import jwt_decode from "jwt-decode";
+//
 export function AddDiseaseDialog(props) {
   const [open, setOpen] = useState(false);
+  //
+  const [nameDisease, setNameDisease] = useState("");
+  const [decription, setDecription] = useState("");
+  const [symptoms, setSymptoms] = useState("");
+  const [cause, setCause] = useState("");
+  const [risk, setRisk] = useState("");
+  const [complication, setComplication] = useState("");
+  const [preparing, setPreparing] = useState("");
+  const [tests, setTests] = useState("");
+  const [treatment, setTreatment] = useState("");
+  const [lifeStyle, setLifeStyle] = useState("");
+  const [prevention, setPrevention] = useState("");
+  //
   const handleClose = () => {
     props.onCloseAdd();
+  };
+  //
+  const createDisease = () => {
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    console.log("Token", getToken);
+    const decode = jwt_decode(getToken);
+    const IDAdmin = decode.result.IDAdmin;
+    const data = {
+      nameDisease,
+      decription,
+      symptoms,
+      cause,
+      risk,
+      complication,
+      preparing,
+      tests,
+      treatment,
+      lifeStyle,
+      prevention,
+    };
+    console.log("dataEdit", data);
+    BackendAPI.post("/api/admin/disease", data, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
   };
   const handleAdd = async () => {};
   const [descriptionError, setdescriptionError] = useState("");
@@ -36,6 +86,7 @@ export function AddDiseaseDialog(props) {
               id="outlined-multiline-flexible"
               label="Name of Disease"
               sx={{ width: "100%" }}
+              onChange={(e) => setNameDisease(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -43,6 +94,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setDecription(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -50,6 +102,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setSymptoms(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -57,6 +110,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setCause(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -64,6 +118,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setRisk(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -71,6 +126,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setComplication(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -78,6 +134,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setPreparing(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -85,6 +142,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setTests(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -92,13 +150,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Life Style"
-              multiline
-              minRows={4}
-              sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setTreatment(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
@@ -106,6 +158,7 @@ export function AddDiseaseDialog(props) {
               multiline
               minRows={4}
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setPrevention(e.target.value)}
             />
             <Box sx={{ mt: 3, textAlign: "right" }}>
               <Button
@@ -119,7 +172,9 @@ export function AddDiseaseDialog(props) {
                 variant="outlined"
                 startIcon={<AddCircleOutlineIcon />}
                 sx={{ ml: 3 }}
-                onClick={handleAdd}
+                onClick={() => {
+                  createDisease();
+                }}
               >
                 Add
               </Button>

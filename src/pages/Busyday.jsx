@@ -35,7 +35,7 @@ export default function Busyday(props) {
             mb={5}
           >
             <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
-              Busy day notes
+              Note
             </Typography>
             <Button
               sx={{ backgroundColor: "#00AB55" }}

@@ -41,7 +41,6 @@ import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_DISEASE } from "../constants/diseaseConstants";
 const TABLE_HEAD = [
-  { id: "IDDisease", label: "ID", alignRight: false },
   { id: "NameDisease", label: "Disease", alignRight: false },
   { id: "Decription", label: "Description", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
@@ -214,9 +213,6 @@ export default function Disease(props) {
                 {data?.map((item, idx) => {
                   return (
                     <StyledTableRow key={idx} hover>
-                      <TableCell align="left" width={100}>
-                        {item.IDDisease}
-                      </TableCell>
                       <TableCell align="left" width={750}>
                         {item.NameDisease}
                       </TableCell>

@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { deleteDisease } from "../../actions/diseaseAction";
 import { EditDiseaseDialog } from "./dialog/editDialog";
+import BackendAPI from "../../api/HttpClient";
+import jwt_decode from "jwt-decode";
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +34,26 @@ export default function DiseaseMoreMenu(props) {
   const handleCloseEdit = (isSuccessEdit) => {
     setOpenEdit(false);
     props.onClose(isSuccessEdit);
+  };
+  //
+  const deleteDisease = () => {
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    console.log("Token", getToken);
+    console.log("DoctorMoreMenu", IDDisease);
+    BackendAPI.delete(`/api/admin/disease/${IDDisease}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
   };
   return (
     <>
@@ -65,6 +87,9 @@ export default function DiseaseMoreMenu(props) {
           <ListItemText
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
+            onClick={() => {
+              deleteDisease();
+            }}
           />
         </MenuItem>
 

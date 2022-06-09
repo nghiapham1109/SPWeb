@@ -16,7 +16,7 @@ const sidebarConfig = [
     icon: <img style={{ height: 22, width: 22 }} src="images/schedule.png" />,
   },
   {
-    title: "Busy Days Note",
+    title: "Note",
     path: "/daybusy",
     icon: <img style={{ height: 22, width: 22 }} src="images/booking.png" />,
   },
