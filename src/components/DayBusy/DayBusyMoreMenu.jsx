@@ -13,6 +13,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import { EditDayBusyDialog } from "./dialog/editDialog";
+import BackendAPI from "../../api/HttpClient";
+import jwt_decode from "jwt-decode";
 
 // ----------------------------------------------------------------------
 
@@ -30,6 +32,24 @@ export default function SymptomMoreMenu(props) {
   const handleCloseEdit = (isSuccessEdit) => {
     setOpenEdit(false);
     props.onClose(isSuccessEdit);
+  };
+  const deleteDayBusy = () => {
+    const getToken = localStorage.getItem("storeToken");
+    console.log("Token", getToken);
+    BackendAPI.delete(`/api/daybusy/delete/${IDDayBusy}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
   };
   return (
     <>
@@ -64,6 +84,9 @@ export default function SymptomMoreMenu(props) {
           <ListItemText
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
+            onClick={() => {
+              deleteDayBusy();
+            }}
           />
         </MenuItem>
 

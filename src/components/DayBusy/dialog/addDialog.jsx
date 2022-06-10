@@ -19,9 +19,38 @@ import jwt_decode from "jwt-decode";
 
 export function AddDayBusyDialog(props) {
   //
+  const [timeBusy, setTimeBusy] = useState("");
+  const [dayBusy, setDayBusy] = useState("");
+  const [note, setNote] = useState("");
 
   const handleClose = () => {
     props.onCloseAdd();
+  };
+  const createDayBusy = () => {
+    const getToken = localStorage.getItem("storeToken");
+    console.log("Token", getToken);
+    const decode = jwt_decode(getToken);
+    const IDDoctor = decode.result.IDDoctor;
+    const data = {
+      timeBusy,
+      dayBusy,
+      note,
+    };
+    console.log("dataEdit", data);
+    BackendAPI.post("/api/daybusy/create", data, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        console.log(json);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
   };
   //   const handleAdd = async () => {};
   return (
@@ -30,65 +59,27 @@ export function AddDayBusyDialog(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Add new Doctor</DialogTitle>
+      <DialogTitle id="form-dialog-title">Add new day</DialogTitle>
       <DialogContent sx={{ minWidth: 500 }}>
         <Formik>
           <Form style={{ marginTop: 20 }}>
             <TextField
               id="outlined-multiline-flexible"
-              label="Name of Doctor"
+              label="Time"
               sx={{ width: "100%" }}
+              onChange={(e) => setTimeBusy(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
-              label="Day Of Birth"
+              label="Day"
               sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setDayBusy(e.target.value)}
             />
             <TextField
               id="outlined-multiline-flexible"
-              label="Sex"
+              label="Note"
               sx={{ width: "100%", mt: 3 }}
-            />
-
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Phone"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Home Address"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Specialist"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Hospital"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Hospital Address"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Image"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Email"
-              sx={{ width: "100%", mt: 3 }}
-            />
-            <TextField
-              id="outlined-multiline-flexible"
-              label="Password"
-              sx={{ width: "100%", mt: 3 }}
+              onChange={(e) => setNote(e.target.value)}
             />
             <Box sx={{ mt: 3, textAlign: "right" }}>
               <Button
@@ -102,6 +93,9 @@ export function AddDayBusyDialog(props) {
                 variant="outlined"
                 startIcon={<AddCircleOutlineIcon />}
                 sx={{ ml: 3 }}
+                onClick={() => {
+                  createDayBusy();
+                }}
               >
                 Add
               </Button>

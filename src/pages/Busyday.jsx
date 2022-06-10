@@ -73,10 +73,20 @@ export default function Busyday(props) {
   useEffect(() => {
     getBooking();
   }, []);
+  //
+  let [openAdd, setOpenAdd] = useState(false);
+
+  const handleOpenAddDialog = () => {
+    setOpenAdd(true);
+  };
+  const handleCloseAddDialog = () => {
+    setOpenAdd(false);
+    props.onClose();
+  };
   return (
     <ThemeConfig>
       <DashboardLayout>
-        {<AddDayBusyDialog />}
+        {<AddDayBusyDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
         <Container style={{ maxHeight: 550 }}>
           <Stack
             direction="row"
@@ -92,12 +102,14 @@ export default function Busyday(props) {
               variant="contained"
               to="#"
               startIcon={<Icon sx={{ color: "black" }} icon={plusFill} />}
+              onClick={() => {
+                handleOpenAddDialog();
+              }}
             >
               New day
             </Button>
           </Stack>
           <Card>
-            <SymptomListToolbar />
             <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
               <Table>
                 <SymptomListHead headLabel={TABLE_HEAD} />

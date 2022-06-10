@@ -86,34 +86,36 @@ export default function Appointment(props) {
               Appointment
             </Typography>
           </Stack>
-          <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
-            <Table>
-              <DiseaseListHead headLabel={TABLE_HEAD} />
-              {data.map((item, idx) => {
-                return (
-                  <TableBody key={idx}>
-                    <StyledTableRow hover>
-                      <TableCell align="left" width={100}>
-                        {item.IDBooking}
-                      </TableCell>
-                      <TableCell align="left" width={750}>
-                        {item.TimeBooking}
-                      </TableCell>
-                      <TableCell align="left" width={750}>
-                        {item.DayBooking}
-                      </TableCell>
-                      <TableCell align="left" width={750}>
-                        {item.Note}
-                      </TableCell>
-                      <TableCell align="left" width={750}>
-                        {item.NamePatient}
-                      </TableCell>
-                    </StyledTableRow>
-                  </TableBody>
-                );
-              })}
-            </Table>
-          </TableContainer>
+          <Card>
+            <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
+              <Table>
+                <DiseaseListHead headLabel={TABLE_HEAD} />
+                {data.map((item, idx) => {
+                  return (
+                    <TableBody key={idx}>
+                      <StyledTableRow hover>
+                        <TableCell align="left" width={100}>
+                          {item.IDBooking}
+                        </TableCell>
+                        <TableCell align="left" width={750}>
+                          {item.TimeBooking}
+                        </TableCell>
+                        <TableCell align="left" width={750}>
+                          {item.DayBooking}
+                        </TableCell>
+                        <TableCell align="left" width={750}>
+                          {item.Note}
+                        </TableCell>
+                        <TableCell align="left" width={750}>
+                          {item.NamePatient}
+                        </TableCell>
+                      </StyledTableRow>
+                    </TableBody>
+                  );
+                })}
+              </Table>
+            </TableContainer>
+          </Card>
         </Container>
       </DashboardLayout>
     </ThemeConfig>
