@@ -108,80 +108,9 @@ export default function Disease(props) {
     setOpenAdd(false);
     setUpdate(isUpdated + 1);
   };
-  const handleDelete = async (id) => {
-    // await dispatch(deleteDisease(id));
-    // setSuccessDelete(true);
-    // setUpdate(isUpdated + 1);
-  };
-  const handleCloseEdit = async (successEditForm) => {
-    if (successEditForm) {
-      await setSuccessEdit(true);
-    }
-    setUpdate(isUpdated + 1);
-  };
-  const handleCloseMessageEdit = () => {
-    // dispatch({ type: REMOVE_SELECTED_DISEASE });
-    // setSuccessEdit(false);
-  };
-  const handleCloseMessageAdd = () => {
-    // dispatch({ type: REMOVE_SELECTED_DISEASE });
-    // setSuccessAdd(false);
-  };
-  const handleCloseMessageDelete = () => {
-    // dispatch({ type: REMOVE_SELECTED_DISEASE });
-    // setSuccessDelete(false);
-  };
   return (
     <DashboardLayout>
       {<AddDiseaseDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
-      {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successEdit}
-          onClose={handleCloseMessageEdit}
-        >
-          <Alert
-            onClose={handleCloseMessageEdit}
-            severity="success"
-            sx={{ width: "100%", backgroundColor: "green", color: "white" }}
-          >
-            {"Edit Succees!"}
-          </Alert>
-        </Snackbar>
-      }
-      {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successDelete}
-          onClose={handleCloseMessageDelete}
-        >
-          <Alert
-            onClose={handleCloseMessageDelete}
-            severity="success"
-            sx={{ width: "100%", backgroundColor: "green", color: "white" }}
-          >
-            {"Delete Succees!"}
-          </Alert>
-        </Snackbar>
-      }
-      {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successAdd}
-          onClose={handleCloseMessageAdd}
-        >
-          <Alert
-            onClose={handleCloseMessageAdd}
-            severity="success"
-            sx={{ width: "100%", backgroundColor: "green", color: "white" }}
-          >
-            {"Add Succees!"}
-          </Alert>
-        </Snackbar>
-      }
       <Container style={{ maxHeight: 550 }}>
         <Stack
           direction="row"
