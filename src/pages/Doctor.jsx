@@ -89,6 +89,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function Symptom(props) {
   const [data, setData] = useState([]);
+  const [reRender, setRerender] = useState(false);
 
   const getDoctorByAdmin = () => {
     const getToken = localStorage.getItem("storeTokenAdmin");
@@ -134,20 +135,10 @@ export default function Symptom(props) {
         // ADD THIS THROW error
         throw error;
       });
-  }, []);
-  let [isUpdated, setUpdate] = useState(0);
+  }, [reRender]);
+  //
+  //
 
-  const [orderBy, setOrderBy] = useState("id");
-  const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
-  //
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-  //
-  const [filterName, setFilterName] = useState("");
   //
   const [openAdd, setOpenAdd] = useState(false);
   //
@@ -158,66 +149,17 @@ export default function Symptom(props) {
     setOpenAdd(false);
     props.onClose();
   };
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-  const [successEdit, setSuccessEdit] = useState(false);
-  const [successAdd, setSuccessAdd] = useState(false);
-  const [successDelete, setSuccessDelete] = useState(false);
-  const handleCloseMessageEdit = () => {};
-  const handleCloseMessageAdd = () => {};
-  const handleCloseMessageDelete = () => {};
 
   return (
     <DashboardLayout>
-      {<AddSymptomDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
       {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successEdit}
-          onClose={handleCloseMessageEdit}
-        >
-          <Alert
-            onClose={handleCloseMessageEdit}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {"Edit Succees!"}
-          </Alert>
-        </Snackbar>
-      }
-      {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successDelete}
-          onClose={handleCloseMessageDelete}
-        >
-          <Alert
-            onClose={handleCloseMessageDelete}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {"Delete Succees!"}
-          </Alert>
-        </Snackbar>
-      }
-      {
-        <Snackbar
-          autoHideDuration={2000}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={successAdd}
-          onClose={handleCloseMessageAdd}
-        >
-          <Alert
-            onClose={handleCloseMessageAdd}
-            severity="success"
-            sx={{ width: "100%" }}
-          >
-            {"Add Succees!"}
-          </Alert>
-        </Snackbar>
+        <AddSymptomDialog
+          open={openAdd}
+          onCloseAdd={handleCloseAddDialog}
+          onAddSuccess={() => {
+            setRerender(!reRender);
+          }}
+        />
       }
       <Container style={{ maxHeight: 550 }}>
         <Stack
@@ -242,11 +184,7 @@ export default function Symptom(props) {
           </Button>
         </Stack>
         <Card>
-          <SymptomListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
+          <SymptomListToolbar />
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
               <SymptomListHead

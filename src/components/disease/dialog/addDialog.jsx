@@ -62,6 +62,7 @@ export function AddDiseaseDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Add disease success!");
       })
       .catch((error) => {
         console.log(

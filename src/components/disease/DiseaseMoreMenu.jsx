@@ -47,6 +47,7 @@ export default function DiseaseMoreMenu(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Delete disease success!");
       })
       .catch((error) => {
         console.log(

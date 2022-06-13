@@ -16,7 +16,8 @@ import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
-
+import Alert from "react-bootstrap/Alert";
+//
 export function AddSymptomDialog(props) {
   const [openAdd, setOpenAdd] = useState(false);
   //
@@ -50,7 +51,6 @@ export function AddSymptomDialog(props) {
       email,
       password,
     };
-    console.log("dataAddF", DATA);
 
     BackendAPI.post("/api/admin", DATA, {
       headers: {
@@ -59,6 +59,7 @@ export function AddSymptomDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        props.onAddSuccess();
       })
       .catch((error) => {
         console.log(

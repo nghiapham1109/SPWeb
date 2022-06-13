@@ -31,8 +31,8 @@ import jwt_decode from "jwt-decode";
 const TABLE_HEAD = [
   { id: "IDBooking", label: "ID", alignRight: false },
   { id: "TimeBooking", label: "Time", alignRight: false },
-  { id: "Note", label: "Note", alignRight: false },
   { id: "DayBooking", label: "Day", alignRight: false },
+  { id: "Note", label: "Note", alignRight: false },
   { id: "NamePatient", label: "Name Patient", alignRight: false },
 ];
 const StyledTableRow = styled(TableRow)(({ theme }) => ({

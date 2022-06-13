@@ -63,6 +63,7 @@ export function EditDiseaseDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Update disease success!");
       })
       .catch((error) => {
         console.log(
@@ -71,6 +72,7 @@ export function EditDiseaseDialog(props) {
         throw error;
       });
   };
+
   //
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");

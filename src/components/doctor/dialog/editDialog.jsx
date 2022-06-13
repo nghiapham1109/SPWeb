@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { listDiseases } from "../../../actions/diseaseAction";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import Alert from "react-bootstrap/Alert";
+//
 export function EditSymptomDialog(props) {
   const [data, setData] = useState([]);
   //
@@ -65,6 +67,7 @@ export function EditSymptomDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Update doctor success!");
       })
       .catch((error) => {
         console.log(
