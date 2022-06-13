@@ -48,7 +48,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 export default function Busyday(props) {
   const [data, setData] = useState([]);
-
+  const [reRender, setRerender] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  //
   const getBooking = () => {
     const getToken = localStorage.getItem("storeToken");
     const decode = jwt_decode(getToken);
@@ -72,21 +74,29 @@ export default function Busyday(props) {
   };
   useEffect(() => {
     getBooking();
-  }, []);
+  }, [reRender]);
   //
-  let [openAdd, setOpenAdd] = useState(false);
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
+  //
   const handleCloseAddDialog = () => {
     setOpenAdd(false);
     props.onClose();
   };
+  //
   return (
     <ThemeConfig>
       <DashboardLayout>
-        {<AddDayBusyDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
+        {
+          <AddDayBusyDialog
+            open={openAdd}
+            onCloseAdd={handleCloseAddDialog}
+            onAddSuccess={() => {
+              setRerender(!reRender);
+            }}
+          />
+        }
         <Container style={{ maxHeight: 550 }}>
           <Stack
             direction="row"
@@ -127,7 +137,15 @@ export default function Busyday(props) {
                           {item.Note}
                         </TableCell>
                         <TableCell align="left" width={100}>
-                          <SymptomMoreMenu IDDayBusy={item.IDDayBusy} />
+                          <SymptomMoreMenu
+                            IDDayBusy={item.IDDayBusy}
+                            onDeleteSuccess={() => {
+                              setRerender(!reRender);
+                            }}
+                            onUpdateSuccess={() => {
+                              setRerender(!reRender);
+                            }}
+                          />
                         </TableCell>
                       </StyledTableRow>
                     </TableBody>

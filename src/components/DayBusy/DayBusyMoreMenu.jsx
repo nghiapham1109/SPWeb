@@ -22,7 +22,7 @@ export default function SymptomMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const { IDDayBusy } = props;
+  const { IDDayBusy, onUpdateSuccess } = props;
   console.log("MoreMemuBusy", IDDayBusy);
   //
   const handleOpenEditDialog = () => {
@@ -43,6 +43,8 @@ export default function SymptomMoreMenu(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Delete note success!");
+        props.onDeleteSuccess();
       })
       .catch((error) => {
         console.log(
@@ -58,6 +60,7 @@ export default function SymptomMoreMenu(props) {
           open={openEdit}
           onCloseEdit={handleCloseEdit}
           IDDayBusy={IDDayBusy}
+          onUpdateSuccess={onUpdateSuccess}
         />
       }
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>

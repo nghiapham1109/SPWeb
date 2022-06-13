@@ -68,6 +68,7 @@ export function EditSymptomDialog(props) {
       .then((json) => {
         console.log(json);
         alert("Update doctor success!");
+        props.onUpdateSuccess();
       })
       .catch((error) => {
         console.log(

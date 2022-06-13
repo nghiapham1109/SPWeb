@@ -1,12 +1,6 @@
 import DashboardLayout from "../components/dashboard/DashboardLayout";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
-// import {
-//   deleteDisease,
-//   listDiseases,
-//   saveDisease,
-// } from "../actions/diseaseAction";
 import { filter } from "lodash";
 import { styled } from "@mui/material/styles";
 import plusFill from "@iconify/icons-eva/plus-fill";
@@ -28,7 +22,6 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import Scrollbar from "../components/dashboard/Scrollbar";
 import SearchNotFound from "../components/SearchNotFound";
 import DiseaseListHead from "../components/disease/DiseaseListHead";
 import DiseaseMoreMenu from "../components/disease/DiseaseMoreMenu";
@@ -37,17 +30,15 @@ import DiseaseListToolbar from "../components/disease/DiseaseListToolbar";
 import { Icon } from "@iconify/react";
 import ThemeConfig from "../components/theme";
 import { AddDiseaseDialog } from "../components/disease/dialog/addDialog";
-import ReactLoading from "react-loading";
 import "./css/common.css";
-import { REMOVE_SELECTED_DISEASE } from "../constants/diseaseConstants";
+
+// ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: "NameDisease", label: "Disease", alignRight: false },
   { id: "Decription", label: "Description", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
-
-// ----------------------------------------------------------------------
-
+//
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
     backgroundColor: "rgb(255, 247, 205)",
@@ -57,8 +48,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
+//
 export default function Disease(props) {
   const [data, setData] = useState([]);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [reRender, setRerender] = useState(false);
+  //
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
@@ -80,15 +75,8 @@ export default function Disease(props) {
         // ADD THIS THROW error
         throw error;
       });
-  }, []);
-  let [isUpdated, setUpdate] = useState(0);
-  const [orderBy, setOrderBy] = useState("IDDisease");
-  const [order, setOrder] = useState("asc");
-  const [selected, setSelected] = useState([]);
+  }, [reRender]);
   //
-
-  let [openAdd, setOpenAdd] = useState(false);
-
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -97,20 +85,17 @@ export default function Disease(props) {
     props.onClose();
   };
   //
-  const [successEdit, setSuccessEdit] = useState(false);
-  const [successAdd, setSuccessAdd] = useState(false);
-  const [successDelete, setSuccessDelete] = useState(false);
-  //
-  const handleCloseAdd = async (successAddForm) => {
-    if (successAddForm) {
-      await setSuccessAdd(true);
-    }
-    setOpenAdd(false);
-    setUpdate(isUpdated + 1);
-  };
   return (
     <DashboardLayout>
-      {<AddDiseaseDialog open={openAdd} onCloseAdd={handleCloseAddDialog} />}
+      {
+        <AddDiseaseDialog
+          open={openAdd}
+          onCloseAdd={handleCloseAddDialog}
+          onAddSuccess={() => {
+            setRerender(!reRender);
+          }}
+        />
+      }
       <Container style={{ maxHeight: 550 }}>
         <Stack
           direction="row"
@@ -134,7 +119,7 @@ export default function Disease(props) {
           </Button>
         </Stack>
         <Card>
-          <DiseaseListToolbar numSelected={selected.length} />
+          <DiseaseListToolbar />
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
               <DiseaseListHead headLabel={TABLE_HEAD} />
@@ -149,7 +134,15 @@ export default function Disease(props) {
                         {item.Decription}
                       </TableCell>
                       <TableCell align="left" width={100}>
-                        <DiseaseMoreMenu IDDisease={item.IDDisease} />
+                        <DiseaseMoreMenu
+                          IDDisease={item.IDDisease}
+                          onDeleteSuccess={() => {
+                            setRerender(!reRender);
+                          }}
+                          onUpdateSuccess={() => {
+                            setRerender(!reRender);
+                          }}
+                        />
                       </TableCell>
                     </StyledTableRow>
                   );

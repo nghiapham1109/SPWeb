@@ -45,38 +45,6 @@ const TABLE_HEAD = [
 ];
 
 // ----------------------------------------------------------------------
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-//
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-//
-function applySortFilter(array, comparator, query) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  if (query) {
-    return filter(
-      array,
-      (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    );
-  }
-  return stabilizedThis.map((el) => el[0]);
-}
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
     backgroundColor: "rgb(255, 247, 205)",
@@ -90,7 +58,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function Symptom(props) {
   const [data, setData] = useState([]);
   const [reRender, setRerender] = useState(false);
-
+  const [data1, setData1] = useState([]);
+  const [openAdd, setOpenAdd] = useState(false);
+  //
   const getDoctorByAdmin = () => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
@@ -114,7 +84,7 @@ export default function Symptom(props) {
   useEffect(() => {
     getDoctorByAdmin();
   }, []);
-  const [data1, setData1] = useState([]);
+  //
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
@@ -137,11 +107,6 @@ export default function Symptom(props) {
       });
   }, [reRender]);
   //
-  //
-
-  //
-  const [openAdd, setOpenAdd] = useState(false);
-  //
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
   };
@@ -149,7 +114,7 @@ export default function Symptom(props) {
     setOpenAdd(false);
     props.onClose();
   };
-
+  //
   return (
     <DashboardLayout>
       {
@@ -187,17 +152,11 @@ export default function Symptom(props) {
           <SymptomListToolbar />
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
-              <SymptomListHead
-                headLabel={TABLE_HEAD}
-                //   rowCount={symptoms.length}
-              />
+              <SymptomListHead headLabel={TABLE_HEAD} />
               <TableBody>
                 {data1?.map((item, idx, props) => {
                   return (
                     <StyledTableRow key={idx} hover>
-                      {/* <TableCell padding="checkbox">
-                        <Checkbox value={item.IDDoctor} />
-                      </TableCell> */}
                       <TableCell align="left" width={750}>
                         {item.NameDoctor}
                       </TableCell>
@@ -208,7 +167,15 @@ export default function Symptom(props) {
                         {item.Specialist}
                       </TableCell>
                       <TableCell align="left" width={100}>
-                        <DoctorMoreMenu IDDoctor={item.IDDoctor} />
+                        <DoctorMoreMenu
+                          IDDoctor={item.IDDoctor}
+                          onDeleteSuccess={() => {
+                            setRerender(!reRender);
+                          }}
+                          onUpdateSuccess={() => {
+                            setRerender(!reRender);
+                          }}
+                        />
                       </TableCell>
                     </StyledTableRow>
                   );

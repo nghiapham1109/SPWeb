@@ -59,6 +59,7 @@ export function AddSymptomDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Add doctor success");
         props.onAddSuccess();
       })
       .catch((error) => {

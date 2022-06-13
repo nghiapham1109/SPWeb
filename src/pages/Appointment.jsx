@@ -47,7 +47,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 //
 export default function Appointment(props) {
   const [data, setData] = useState([]);
-
+  //
   const getBooking = () => {
     const getToken = localStorage.getItem("storeToken");
     const decode = jwt_decode(getToken);

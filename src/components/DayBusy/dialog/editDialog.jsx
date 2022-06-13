@@ -49,6 +49,8 @@ export function EditDayBusyDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Update note success!");
+        props.onUpdateSuccess();
       })
       .catch((error) => {
         console.log(

@@ -44,6 +44,8 @@ export function AddDayBusyDialog(props) {
     })
       .then((json) => {
         console.log(json);
+        alert("Add note success!");
+        props.onAddSuccess();
       })
       .catch((error) => {
         console.log(

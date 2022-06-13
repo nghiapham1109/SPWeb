@@ -24,10 +24,9 @@ export default function DiseaseMoreMenu(props) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-  const { IDDisease } = props;
+  const { IDDisease, onUpdateSuccess } = props;
   //
   const handleOpenEditDialog = () => {
-    console.log("1");
     setOpenEdit(true);
   };
   //
@@ -48,6 +47,7 @@ export default function DiseaseMoreMenu(props) {
       .then((json) => {
         console.log(json);
         alert("Delete disease success!");
+        props.onDeleteSuccess();
       })
       .catch((error) => {
         console.log(
@@ -63,6 +63,7 @@ export default function DiseaseMoreMenu(props) {
           open={openEdit}
           onCloseEdit={handleCloseEdit}
           IDDisease={IDDisease}
+          onUpdateSuccess={onUpdateSuccess}
         />
       }
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>

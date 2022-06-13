@@ -63,6 +63,7 @@ export function AddDiseaseDialog(props) {
       .then((json) => {
         console.log(json);
         alert("Add disease success!");
+        props.onAddSuccess();
       })
       .catch((error) => {
         console.log(
@@ -71,8 +72,6 @@ export function AddDiseaseDialog(props) {
         throw error;
       });
   };
-  const handleAdd = async () => {};
-  const [descriptionError, setdescriptionError] = useState("");
   return (
     <Dialog
       open={props.open}
