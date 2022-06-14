@@ -26,7 +26,6 @@ import SearchNotFound from "../components/SearchNotFound";
 import DiseaseListHead from "../components/disease/DiseaseListHead";
 import DiseaseMoreMenu from "../components/disease/DiseaseMoreMenu";
 import DiseaseListToolbar from "../components/disease/DiseaseListToolbar";
-// import renderHTML from "react-render-html";
 import { Icon } from "@iconify/react";
 import ThemeConfig from "../components/theme";
 import { AddDiseaseDialog } from "../components/disease/dialog/addDialog";
