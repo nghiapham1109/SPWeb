@@ -30,11 +30,12 @@ import { Icon } from "@iconify/react";
 import ThemeConfig from "../components/theme";
 import { AddDiseaseDialog } from "../components/disease/dialog/addDialog";
 import "./css/common.css";
-
+import parse from "html-react-parser";
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: "NameDisease", label: "Disease", alignRight: false },
   { id: "Decription", label: "Description", alignRight: false },
+  { id: "Cause", label: "Cause", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 //
@@ -130,7 +131,12 @@ export default function Disease(props) {
                         {item.NameDisease}
                       </TableCell>
                       <TableCell align="left" width={750}>
-                        {item.Decription}
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.Decription }}
+                        />
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        <div dangerouslySetInnerHTML={{ __html: item.Cause }} />
                       </TableCell>
                       <TableCell align="left" width={100}>
                         <DiseaseMoreMenu
