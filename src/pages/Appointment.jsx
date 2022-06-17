@@ -101,7 +101,7 @@ export default function Appointment(props) {
                           {item.TimeBooking}
                         </TableCell>
                         <TableCell align="left" width={750}>
-                          {item.DayBooking}
+                          {item.DayBooking.split("-").reverse().join("-")}
                         </TableCell>
                         <TableCell align="left" width={750}>
                           {item.Note}

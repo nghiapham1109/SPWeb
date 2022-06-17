@@ -131,7 +131,7 @@ export default function Busyday(props) {
                           {item.TimeBusy}
                         </TableCell>
                         <TableCell align="left" width={750}>
-                          {item.DayBusy}
+                          {item.DayBusy.split("-").reverse().join("-")}
                         </TableCell>
                         <TableCell align="left" width={750}>
                           {item.Note}

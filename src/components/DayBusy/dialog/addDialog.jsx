@@ -16,10 +16,11 @@ import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import Select from "react-select";
 
 export function AddDayBusyDialog(props) {
   //
-  const [timeBusy, setTimeBusy] = useState("");
+  const [timeBusy, setTimeBusy] = useState("08:00-09:00");
   const [dayBusy, setDayBusy] = useState("");
   const [note, setNote] = useState("");
 
@@ -54,7 +55,6 @@ export function AddDayBusyDialog(props) {
         throw error;
       });
   };
-  //   const handleAdd = async () => {};
   return (
     <Dialog
       open={props.open}
@@ -65,18 +65,43 @@ export function AddDayBusyDialog(props) {
       <DialogContent sx={{ minWidth: 500 }}>
         <Formik>
           <Form style={{ marginTop: 20 }}>
-            <TextField
+            <label for="noteDay">Enter a date for your day busy:</label>
+            <input
+              id="noteDay"
+              type="date"
+              style={{ width: "100%", mt: 3 }}
+              value={dayBusy}
+              onChange={(e) => setDayBusy(e.target.value)}
+            />
+            <label for="noteDay" style={{ mt: 3, height: "100%",}}>
+              Enter a date for your time busy:
+            </label>
+            <select
+              name="TimeBusy"
+              id="timeBusy"
+              style={{ width: "100%", mt: 3 }}
+              onChange={(e) => setTimeBusy(e.target.value)}
+              value={timeBusy}
+            >
+              <option value="08:00-09:00">08:00-09:00</option>
+              <option value="09:15-10:15">09:15-10:15</option>
+              <option value="10:30-11:30">10:30-11:30</option>
+              <option value="13:00-14:00">13:00-14:00</option>
+              <option value="14:15-15:15">14:15-15:15</option>
+              <option value="15:30-16:30">15:30-16:30</option>
+            </select>
+            {/* <TextField
               id="outlined-multiline-flexible"
               label="Time"
               sx={{ width: "100%" }}
               onChange={(e) => setTimeBusy(e.target.value)}
-            />
-            <TextField
+            /> */}
+            {/* <TextField
               id="outlined-multiline-flexible"
               label="Day"
               sx={{ width: "100%", mt: 3 }}
               onChange={(e) => setDayBusy(e.target.value)}
-            />
+            /> */}
             <TextField
               id="outlined-multiline-flexible"
               label="Note"
