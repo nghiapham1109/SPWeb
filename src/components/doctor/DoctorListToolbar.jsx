@@ -14,7 +14,9 @@ import {
   OutlinedInput,
   InputAdornment,
 } from "@mui/material";
-
+import { useEffect, useState } from "react";
+import BackendAPI from "../../api/HttpClient";
+import jwt_decode from "jwt-decode";
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Toolbar)(({ theme }) => ({
@@ -39,46 +41,63 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-SymptomListToolbar.propTypes = {
-  numSelected: PropTypes.number,
-  filterName: PropTypes.string,
-  onFilterName: PropTypes.func,
-};
-
-export default function SymptomListToolbar({
-  numSelected,
-  filterName,
-  onFilterName,
-}) {
+export default function SymptomListToolbar() {
+  const [data, setData] = useState([]);
+  const [arrayHolder, setArrayHolder] = useState([]);
+  const [value, setValue] = useState();
+  //
+  const getDoctorByAdmin = () => {
+    const getToken = localStorage.getItem("storeTokenAdmin");
+    const decode = jwt_decode(getToken);
+    const IDAdmin = decode.result.IDAdmin;
+    BackendAPI.get(`/api/booking/${IDAdmin}`, {
+      headers: {
+        Authorization: "Bearer " + getToken,
+      },
+    })
+      .then((json) => {
+        setData(json.data.data);
+        // console.log(json.data.data);
+        setArrayHolder(json.data.data);
+      })
+      .catch((error) => {
+        console.log(
+          "There has been a problem with your fetch operation: " + error.message
+        );
+        throw error;
+      });
+  };
+  useEffect(() => {
+    getDoctorByAdmin();
+  }, []);
+  //
+  let searchFilterFunction = (text) => {
+    setValue(text);
+    console.log("dasdas", text);
+    const newData = arrayHolder.filter((item) => {
+      const itemData = `${item.NameDoctor.toUpperCase()}`;
+      console.log("Search Disease", itemData);
+      const textData = text.toUpperCase();
+      // console.log(textData);
+      return itemData.indexOf(textData) > -1;
+    });
+    setData(newData);
+  };
+  //
   return (
-    <RootStyle
-      sx={{
-        ...(numSelected > 0 && {
-          color: "primary.main",
-          bgcolor: "primary.lighter",
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography component="div" variant="subtitle1">
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <SearchStyle
-          value={filterName}
-          onChange={onFilterName}
-          placeholder="Search Doctor..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Box
-                component={Icon}
-                icon={searchFill}
-                sx={{ color: "text.disabled" }}
-              />
-            </InputAdornment>
-          }
-        />
-      )}
+    <RootStyle>
+      <SearchStyle
+        placeholder="Search Doctor..."
+        startAdornment={
+          <InputAdornment position="start">
+            <Box
+              component={Icon}
+              icon={searchFill}
+              sx={{ color: "text.disabled" }}
+            />
+          </InputAdornment>
+        }
+      />
     </RootStyle>
   );
 }

@@ -29,7 +29,6 @@ import BackendAPI from "../api/HttpClient";
 import { styled } from "@mui/material/styles";
 import jwt_decode from "jwt-decode";
 const TABLE_HEAD = [
-  { id: "IDBooking", label: "ID", alignRight: false },
   { id: "TimeBooking", label: "Time", alignRight: false },
   { id: "DayBooking", label: "Day", alignRight: false },
   { id: "Note", label: "Note", alignRight: false },
@@ -94,9 +93,6 @@ export default function Appointment(props) {
                   return (
                     <TableBody key={idx}>
                       <StyledTableRow hover>
-                        <TableCell align="left" width={100}>
-                          {item.IDBooking}
-                        </TableCell>
                         <TableCell align="left" width={750}>
                           {item.TimeBooking}
                         </TableCell>
