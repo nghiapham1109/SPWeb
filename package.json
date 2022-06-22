@@ -35,7 +35,10 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.3.2",
     "react-text-mask": "^5.4.3",
+    "react-toastify": "^9.0.5",
     "simplebar-react": "^2.3.7",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

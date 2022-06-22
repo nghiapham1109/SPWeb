@@ -2,7 +2,7 @@ import DashboardLayout from "../components/dashboardDoctor/DashboardLayout";
 import ThemeConfig from "../components/theme";
 import { filter } from "lodash";
 import Flexbox from "flexbox-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import {
   Card,
   Table,
@@ -28,6 +28,9 @@ import { Icon } from "@iconify/react";
 import BackendAPI from "../api/HttpClient";
 import { styled } from "@mui/material/styles";
 import jwt_decode from "jwt-decode";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+//
 const TABLE_HEAD = [
   { id: "TimeBooking", label: "Time", alignRight: false },
   { id: "DayBooking", label: "Day", alignRight: false },
@@ -44,8 +47,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 //
+//
 export default function Appointment(props) {
   const [data, setData] = useState([]);
+  const [reRender, setRerender] = useState(false);
   //
   const getBooking = () => {
     const getToken = localStorage.getItem("storeToken");
@@ -59,6 +64,7 @@ export default function Appointment(props) {
       .then((json) => {
         setData(json.data.data);
         console.log(json.data.data);
+        setRerender(!reRender);
       })
       .catch((error) => {
         console.log(
@@ -67,10 +73,11 @@ export default function Appointment(props) {
         throw error;
       });
   };
+  //
   useEffect(() => {
     getBooking();
-  }, []);
-
+  }, [reRender]);
+  //
   return (
     <ThemeConfig>
       <DashboardLayout>
@@ -91,7 +98,12 @@ export default function Appointment(props) {
                 <DiseaseListHead headLabel={TABLE_HEAD} />
                 {data.map((item, idx) => {
                   return (
-                    <TableBody key={idx}>
+                    <TableBody
+                      key={idx}
+                      onUpdateSuccess={() => {
+                        setRerender(!reRender);
+                      }}
+                    >
                       <StyledTableRow hover>
                         <TableCell align="left" width={750}>
                           {item.TimeBooking}
