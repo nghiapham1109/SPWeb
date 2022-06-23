@@ -17,10 +17,13 @@ import { useDispatch } from "react-redux";
 import { EditSymptomDialog } from "./dialog/editDialog";
 import BackendAPI from "../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ----------------------------------------------------------------------
 
 export default function SymptomMoreMenu(props) {
+  //
   let [update, setUpdate] = useState(props.updated);
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +38,7 @@ export default function SymptomMoreMenu(props) {
     setOpenEdit(false);
     props.onClose();
   };
-
+  //
   const deleteDoctor = () => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     console.log("Token", getToken);
@@ -47,7 +50,6 @@ export default function SymptomMoreMenu(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Delete doctor success!");
         props.onDeleteSuccess();
       })
       .catch((error) => {
@@ -57,6 +59,13 @@ export default function SymptomMoreMenu(props) {
         throw error;
       });
   };
+  //
+  const notify = () => {
+    toast.success("Delete Doctor Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <>
       {
@@ -83,7 +92,7 @@ export default function SymptomMoreMenu(props) {
       >
         <MenuItem
           sx={{ color: "text.secondary" }}
-          // onClick={() => props.onDelete()}
+          onClick={() => props.onDelete()}
         >
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
@@ -92,11 +101,12 @@ export default function SymptomMoreMenu(props) {
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
             onClick={() => {
+              notify();
               deleteDoctor();
             }}
           />
+          <ToastContainer />
         </MenuItem>
-
         <MenuItem
           to="#"
           sx={{ color: "text.secondary" }}

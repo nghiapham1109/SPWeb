@@ -17,6 +17,8 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
 import Alert from "react-bootstrap/Alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //
 export function AddSymptomDialog(props) {
   const [openAdd, setOpenAdd] = useState(false);
@@ -59,7 +61,6 @@ export function AddSymptomDialog(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Add doctor success");
         props.onAddSuccess();
       })
       .catch((error) => {
@@ -69,10 +70,17 @@ export function AddSymptomDialog(props) {
         throw error;
       });
   };
+  //
   const handleClose = () => {
     props.onCloseAdd();
   };
-  //   const handleAdd = async () => {};
+  //
+  const notify = () => {
+    toast.success("Add Doctor Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <Dialog
       open={props.open}
@@ -163,11 +171,13 @@ export function AddSymptomDialog(props) {
                 startIcon={<AddCircleOutlineIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   createDoctor();
                 }}
               >
                 Add
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>

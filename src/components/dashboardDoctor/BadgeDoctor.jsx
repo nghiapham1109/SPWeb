@@ -26,31 +26,6 @@ export default function BadgeDoctor(props) {
     return io("http://localhost:8080", { transports: ["websocket"] });
   }, []);
   //
-  const [click, setClick] = useState(false);
-  //
-  const handleClickItem = () => {
-    setClick(true);
-  };
-  //
-  const handleCloseItem = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setClick(false);
-  };
-  //
-  const action = (
-    <Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleCloseItem}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </Fragment>
-  );
   const getToken = localStorage.getItem("storeToken");
   const decode = jwt_decode(getToken);
   const IDDoctor = decode.result.IDDoctor;
@@ -58,17 +33,6 @@ export default function BadgeDoctor(props) {
   useEffect(() => {
     socket?.on(`new-notification-${IDDoctor}`, () => {
       setRerender((prev) => !prev);
-      <Snackbar
-        open={click}
-        autoHideDuration={2000}
-        onClose={handleCloseItem}
-        message="Note archived"
-        action={action}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-      />;
     });
     return () => {
       socket?.off(`new-notification-${IDDoctor}`);

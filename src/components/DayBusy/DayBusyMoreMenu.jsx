@@ -15,6 +15,8 @@ import {
 import { EditDayBusyDialog } from "./dialog/editDialog";
 import BackendAPI from "../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,7 @@ export default function SymptomMoreMenu(props) {
     setOpenEdit(false);
     props.onClose(isSuccessEdit);
   };
+  //
   const deleteDayBusy = () => {
     const getToken = localStorage.getItem("storeToken");
     console.log("Token", getToken);
@@ -43,7 +46,6 @@ export default function SymptomMoreMenu(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Delete note success!");
         props.onDeleteSuccess();
       })
       .catch((error) => {
@@ -53,6 +55,13 @@ export default function SymptomMoreMenu(props) {
         throw error;
       });
   };
+  //
+  const notify = () => {
+    toast.success("Delete Note Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <>
       {
@@ -88,9 +97,11 @@ export default function SymptomMoreMenu(props) {
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
             onClick={() => {
+              notify();
               deleteDayBusy();
             }}
           />
+          <ToastContainer />
         </MenuItem>
 
         <MenuItem

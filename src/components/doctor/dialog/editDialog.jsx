@@ -17,7 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { listDiseases } from "../../../actions/diseaseAction";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
-import Alert from "react-bootstrap/Alert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //
 export function EditSymptomDialog(props) {
   const [data, setData] = useState([]);
@@ -67,7 +68,7 @@ export function EditSymptomDialog(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Update doctor success!");
+        // alert("Update doctor success!");
         props.onUpdateSuccess();
       })
       .catch((error) => {
@@ -107,6 +108,13 @@ export function EditSymptomDialog(props) {
         throw error;
       });
   }, [IDDoctor]);
+  //
+  const notify = () => {
+    toast.success("Update Doctor Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <Dialog
       open={props.open}
@@ -210,11 +218,13 @@ export function EditSymptomDialog(props) {
                 startIcon={<UpdateIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   updateDoctor();
                 }}
               >
                 Update
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>

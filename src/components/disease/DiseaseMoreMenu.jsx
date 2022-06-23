@@ -17,6 +17,8 @@ import { deleteDisease } from "../../actions/diseaseAction";
 import { EditDiseaseDialog } from "./dialog/editDialog";
 import BackendAPI from "../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +48,6 @@ export default function DiseaseMoreMenu(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Delete disease success!");
         props.onDeleteSuccess();
       })
       .catch((error) => {
@@ -56,6 +57,13 @@ export default function DiseaseMoreMenu(props) {
         throw error;
       });
   };
+  //
+  const notify = () => {
+    toast.success("Delete Disease Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <>
       {
@@ -81,7 +89,7 @@ export default function DiseaseMoreMenu(props) {
       >
         <MenuItem
           sx={{ color: "text.secondary" }}
-          onClick={() => props.onDelete()}
+          // onClick={() => props.onDelete()}
         >
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
@@ -90,9 +98,11 @@ export default function DiseaseMoreMenu(props) {
             primary="Delete"
             primaryTypographyProps={{ variant: "body2" }}
             onClick={() => {
+              notify();
               deleteDisease();
             }}
           />
+          <ToastContainer />
         </MenuItem>
 
         <MenuItem

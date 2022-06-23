@@ -17,7 +17,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
 import Select from "react-select";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+//
 export function AddDayBusyDialog(props) {
   //
   const [timeBusy, setTimeBusy] = useState("08:00-09:00");
@@ -45,7 +47,6 @@ export function AddDayBusyDialog(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Add note success!");
         props.onAddSuccess();
       })
       .catch((error) => {
@@ -55,6 +56,13 @@ export function AddDayBusyDialog(props) {
         throw error;
       });
   };
+  //
+  const notify = () => {
+    toast.success("Add Note Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <Dialog
       open={props.open}
@@ -65,7 +73,15 @@ export function AddDayBusyDialog(props) {
       <DialogContent sx={{ minWidth: 500 }}>
         <Formik>
           <Form style={{ marginTop: 20 }}>
-            <label for="noteDay">Enter a date for your day busy:</label>
+            <label
+              for="noteDay"
+              style={{
+                color: "black",
+                fontWeight: "bold",
+              }}
+            >
+              Enter your day busy:
+            </label>
             <input
               id="noteDay"
               type="date"
@@ -73,8 +89,14 @@ export function AddDayBusyDialog(props) {
               value={dayBusy}
               onChange={(e) => setDayBusy(e.target.value)}
             />
-            <label for="noteDay" style={{ mt: 3, height: "100%",}}>
-              Enter a date for your time busy:
+            <label
+              for="noteDay"
+              style={{
+                color: "black",
+                fontWeight: "bold",
+              }}
+            >
+              Enter your time busy:
             </label>
             <select
               name="TimeBusy"
@@ -121,11 +143,13 @@ export function AddDayBusyDialog(props) {
                 startIcon={<AddCircleOutlineIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   createDayBusy();
                 }}
               >
                 Add
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>

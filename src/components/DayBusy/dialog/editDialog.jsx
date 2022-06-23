@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { listDiseases } from "../../../actions/diseaseAction";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+//
 export function EditDayBusyDialog(props) {
   //
   const [data, setData] = useState([]);
@@ -31,6 +34,7 @@ export function EditDayBusyDialog(props) {
   const handleClose = () => {
     props.onCloseEdit();
   };
+  //
   const updateDayBusy = () => {
     const getToken = localStorage.getItem("storeToken");
     console.log("Token", getToken);
@@ -59,6 +63,7 @@ export function EditDayBusyDialog(props) {
         throw error;
       });
   };
+  //
   useEffect(() => {
     const getToken = localStorage.getItem("storeToken");
     fetch(`http://localhost:8080/api/daybusy/info/${IDDayBusy}`, {
@@ -80,6 +85,12 @@ export function EditDayBusyDialog(props) {
         throw error;
       });
   }, [IDDayBusy]);
+  //
+  const notify = () => {
+    toast.success("Update Note Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
   //
   return (
     <Dialog
@@ -151,11 +162,13 @@ export function EditDayBusyDialog(props) {
                 startIcon={<UpdateIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   updateDayBusy();
                 }}
               >
                 Update
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>

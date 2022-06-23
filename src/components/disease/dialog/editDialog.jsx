@@ -13,9 +13,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //
 export function EditDiseaseDialog(props) {
   const [data, setData] = useState([]);
+  const [open, setOpen] = useState(true);
   //
   const [nameDisease, setNameDisease] = useState("");
   const [decription, setDecription] = useState("");
@@ -28,7 +31,6 @@ export function EditDiseaseDialog(props) {
   const [treatment, setTreatment] = useState("");
   const [lifeStyle, setLifeStyle] = useState("");
   const [prevention, setPrevention] = useState("");
-
   //
   const IDDisease = props.IDDisease;
   console.log(IDDisease);
@@ -63,7 +65,6 @@ export function EditDiseaseDialog(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Update disease success!");
         props.onUpdateSuccess();
       })
       .catch((error) => {
@@ -73,7 +74,6 @@ export function EditDiseaseDialog(props) {
         throw error;
       });
   };
-
   //
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
@@ -104,6 +104,13 @@ export function EditDiseaseDialog(props) {
         throw error;
       });
   }, [IDDisease]);
+  //
+  const notify = () => {
+    toast.success("Update Disease Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <Dialog
       open={props.open}
@@ -215,11 +222,13 @@ export function EditDiseaseDialog(props) {
                 startIcon={<UpdateIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   updateDisease();
                 }}
               >
                 Update
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>

@@ -16,6 +16,8 @@ import { Box } from "@mui/system";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BackendAPI from "../../../api/HttpClient";
 import jwt_decode from "jwt-decode";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //
 export function AddDiseaseDialog(props) {
   const [open, setOpen] = useState(false);
@@ -62,7 +64,7 @@ export function AddDiseaseDialog(props) {
     })
       .then((json) => {
         console.log(json);
-        alert("Add disease success!");
+        // alert("Add disease success!");
         props.onAddSuccess();
       })
       .catch((error) => {
@@ -72,6 +74,13 @@ export function AddDiseaseDialog(props) {
         throw error;
       });
   };
+  //
+  const notify = () => {
+    toast.success("Add Disease Success!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+  //
   return (
     <Dialog
       open={props.open}
@@ -173,11 +182,13 @@ export function AddDiseaseDialog(props) {
                 startIcon={<AddCircleOutlineIcon />}
                 sx={{ ml: 3 }}
                 onClick={() => {
+                  notify();
                   createDisease();
                 }}
               >
                 Add
               </Button>
+              <ToastContainer />
             </Box>
           </Form>
         </Formik>
