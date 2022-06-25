@@ -66,7 +66,7 @@ export default function Disease(props) {
       .then((response) => response.json())
       .then((json) => {
         setData(json.data);
-        console.log(json.data);
+        console.log("Disease", json.data);
       })
       .catch((error) => {
         console.log(

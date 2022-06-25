@@ -46,58 +46,62 @@ export default function SymptomListToolbar() {
   const [arrayHolder, setArrayHolder] = useState([]);
   const [value, setValue] = useState();
   //
-  const getDoctorByAdmin = () => {
+  useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
     const decode = jwt_decode(getToken);
-    const IDAdmin = decode.result.IDAdmin;
-    BackendAPI.get(`/api/booking/${IDAdmin}`, {
+    fetch("http://localhost:8080/api/admin", {
       headers: {
         Authorization: "Bearer " + getToken,
       },
     })
+      .then((response) => response.json())
       .then((json) => {
-        setData(json.data.data);
-        // console.log(json.data.data);
-        setArrayHolder(json.data.data);
+        setData(json.data);
+        setArrayHolder(json.data);
+        console.log("Search", json.data);
       })
       .catch((error) => {
         console.log(
           "There has been a problem with your fetch operation: " + error.message
         );
+        // ADD THIS THROW error
         throw error;
       });
-  };
-  useEffect(() => {
-    getDoctorByAdmin();
   }, []);
   //
   let searchFilterFunction = (text) => {
     setValue(text);
-    console.log("dasdas", text);
+    console.log(text);
     const newData = arrayHolder.filter((item) => {
-      const itemData = `${item.NameDoctor.toUpperCase()}`;
-      console.log("Search Disease", itemData);
-      const textData = text.toUpperCase();
+      const itemData = `${item.NameDoctor.toString().toUpperCase()}`;
+      console.log("Search Doctor", itemData);
+      const textData = text.toString().toUpperCase();
       // console.log(textData);
       return itemData.indexOf(textData) > -1;
     });
+    console.log("New data", newData);
+
     setData(newData);
   };
   //
   return (
-    <RootStyle>
-      <SearchStyle
-        placeholder="Search Doctor..."
-        startAdornment={
-          <InputAdornment position="start">
-            <Box
-              component={Icon}
-              icon={searchFill}
-              sx={{ color: "text.disabled" }}
-            />
-          </InputAdornment>
-        }
-      />
-    </RootStyle>
+    <>
+      <RootStyle>
+        <SearchStyle
+          placeholder="Search Doctor..."
+          value={value}
+          onChange={(e) => searchFilterFunction(e.target.value)}
+          startAdornment={
+            <InputAdornment position="start">
+              <Box
+                component={Icon}
+                icon={searchFill}
+                sx={{ color: "text.disabled" }}
+              />
+            </InputAdornment>
+          }
+        />
+      </RootStyle>
+    </>
   );
 }
