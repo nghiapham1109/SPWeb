@@ -20,6 +20,9 @@ import {
   TablePagination,
   ThemeProvider,
   Snackbar,
+  TextField,
+  IconButton,
+  InputAdornment,
   Alert,
 } from "@mui/material";
 import SearchNotFound from "../components/SearchNotFound";
@@ -31,6 +34,7 @@ import ThemeConfig from "../components/theme";
 import { AddDiseaseDialog } from "../components/disease/dialog/addDialog";
 import "./css/common.css";
 import parse from "html-react-parser";
+import SearchIcon from "@mui/icons-material/Search";
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
   { id: "NameDisease", label: "Disease", alignRight: false },
@@ -53,6 +57,8 @@ export default function Disease(props) {
   const [data, setData] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
   const [reRender, setRerender] = useState(false);
+  const [arrayHolder, setArrayHolder] = useState([]);
+  const [value, setValue] = useState();
   //
   useEffect(() => {
     const getToken = localStorage.getItem("storeTokenAdmin");
@@ -66,6 +72,7 @@ export default function Disease(props) {
       .then((response) => response.json())
       .then((json) => {
         setData(json.data);
+        setArrayHolder(json.data);
         console.log("Disease", json.data);
       })
       .catch((error) => {
@@ -76,6 +83,22 @@ export default function Disease(props) {
         throw error;
       });
   }, [reRender]);
+  //
+  let searchFilterFunction = (text) => {
+    setValue(text);
+    console.log("array", arrayHolder);
+    if (data?.length !== 0) {
+      const newData = arrayHolder.filter((item) => {
+        const itemData = `${item.NameDisease.toString().toUpperCase()}`;
+        console.log("Search Disease", itemData);
+        const textData = text.toString().toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      console.log("New data", newData);
+
+      setData(newData);
+    }
+  };
   //
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -119,7 +142,21 @@ export default function Disease(props) {
           </Button>
         </Stack>
         <Card>
-          <DiseaseListToolbar />
+          {/* <DiseaseListToolbar /> */}
+          <TextField
+            label="Search Disease...."
+            style={{ margin: 10, right: 420 }}
+            onChange={(e) => searchFilterFunction(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton>
+                    <SearchIcon>Search</SearchIcon>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
               <DiseaseListHead headLabel={TABLE_HEAD} />

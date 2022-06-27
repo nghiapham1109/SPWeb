@@ -21,8 +21,12 @@ import {
   TablePagination,
   ThemeProvider,
   Snackbar,
+  TextField,
+  IconButton,
+  InputAdornment,
   Alert,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import Scrollbar from "../components/dashboard/Scrollbar";
 import SearchNotFound from "../components/SearchNotFound";
 import TablePaginationActions from "../components/TablePagination";
@@ -36,6 +40,7 @@ import jwt_decode from "jwt-decode";
 import ReactLoading from "react-loading";
 import "./css/common.css";
 import { REMOVE_SELECTED_SYMPTOM } from "../constants/symptomConstants";
+import SearchBar from "material-ui-search-bar";
 const TABLE_HEAD = [
   // { id: "IDDoctor", label: "ID", alignRight: false },
   { id: "NameDoctor", label: "Name", alignRight: false },
@@ -60,6 +65,8 @@ export default function Symptom(props) {
   const [reRender, setRerender] = useState(false);
   const [data1, setData1] = useState([]);
   const [openAdd, setOpenAdd] = useState(false);
+  const [arrayHolder, setArrayHolder] = useState([]);
+  const [value, setValue] = useState();
   //
   const getDoctorByAdmin = () => {
     const getToken = localStorage.getItem("storeTokenAdmin");
@@ -96,6 +103,7 @@ export default function Symptom(props) {
       .then((response) => response.json())
       .then((json) => {
         setData1(json.data);
+        setArrayHolder(json.data);
         console.log(json.data);
       })
       .catch((error) => {
@@ -106,6 +114,22 @@ export default function Symptom(props) {
         throw error;
       });
   }, [reRender]);
+  //
+  let searchFilterFunction = (text) => {
+    setValue(text);
+    if (data1?.length !== 0) {
+      const newData = arrayHolder.filter((item) => {
+        const itemData = `${item.NameDoctor.toString().toUpperCase()}`;
+        console.log("Search Doctor", itemData);
+        const textData = text.toString().toUpperCase();
+        // console.log(textData);
+        return itemData.indexOf(textData) > -1;
+      });
+      console.log("New data", newData);
+
+      setData1(newData);
+    }
+  };
   //
   const handleOpenAddDialog = () => {
     setOpenAdd(true);
@@ -149,7 +173,21 @@ export default function Symptom(props) {
           </Button>
         </Stack>
         <Card>
-          <SymptomListToolbar />
+          {/* <SymptomListToolbar /> */}
+          <TextField
+            label="Search Doctor...."
+            style={{ margin: 10, right: 420 }}
+            onChange={(e) => searchFilterFunction(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton>
+                    <SearchIcon>Search</SearchIcon>
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          ></TextField>
           <TableContainer sx={{ minWidth: 800, maxHeight: 400 }}>
             <Table>
               <SymptomListHead headLabel={TABLE_HEAD} />

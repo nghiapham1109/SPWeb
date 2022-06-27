@@ -2,7 +2,7 @@ import DashboardLayout from "../components/dashboardDoctor/DashboardLayout";
 import ThemeConfig from "../components/theme";
 import { filter } from "lodash";
 import Flexbox from "flexbox-react";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState, Fragment, useMemo } from "react";
 import {
   Card,
   Table,
@@ -30,12 +30,14 @@ import { styled } from "@mui/material/styles";
 import jwt_decode from "jwt-decode";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { io } from "socket.io-client";
 //
 const TABLE_HEAD = [
   { id: "TimeBooking", label: "Time", alignRight: false },
   { id: "DayBooking", label: "Day", alignRight: false },
   { id: "Note", label: "Note", alignRight: false },
   { id: "NamePatient", label: "Name Patient", alignRight: false },
+  { id: "Phone", label: "Phone", alignRight: false },
 ];
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(even)": {
@@ -52,10 +54,14 @@ export default function Appointment(props) {
   const [data, setData] = useState([]);
   const [reRender, setRerender] = useState(false);
   //
+  const socket = useMemo(() => {
+    return io("http://localhost:8080", { transports: ["websocket"] });
+  }, []);
+  //
+  const getToken = localStorage.getItem("storeToken");
+  const decode = jwt_decode(getToken);
+  const IDDoctor = decode.result.IDDoctor;
   const getBooking = () => {
-    const getToken = localStorage.getItem("storeToken");
-    const decode = jwt_decode(getToken);
-    const IDDoctor = decode.result.IDDoctor;
     BackendAPI.get(`/api/booking/${IDDoctor}`, {
       headers: {
         Authorization: "Bearer " + getToken,
@@ -63,8 +69,6 @@ export default function Appointment(props) {
     })
       .then((json) => {
         setData(json.data.data);
-        console.log(json.data.data);
-        setRerender(!reRender);
       })
       .catch((error) => {
         console.log(
@@ -74,6 +78,15 @@ export default function Appointment(props) {
       });
   };
   //
+  useEffect(() => {
+    socket?.on(`new-schedule-${IDDoctor}`, () => {
+      setRerender((prev) => !prev);
+    });
+    return () => {
+      socket?.off(`new-schedule-${IDDoctor}`);
+    };
+  }, [IDDoctor, socket]);
+
   useEffect(() => {
     getBooking();
   }, [reRender]);
@@ -116,6 +129,9 @@ export default function Appointment(props) {
                         </TableCell>
                         <TableCell align="left" width={750}>
                           {item.NamePatient}
+                        </TableCell>
+                        <TableCell align="left" width={750}>
+                          {item.Phone}
                         </TableCell>
                       </StyledTableRow>
                     </TableBody>
