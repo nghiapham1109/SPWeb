@@ -39,7 +39,7 @@ import SearchIcon from "@mui/icons-material/Search";
 const TABLE_HEAD = [
   { id: "NameDisease", label: "Disease", alignRight: false },
   { id: "Decription", label: "Description", alignRight: false },
-  { id: "Cause", label: "Cause", alignRight: false },
+  // { id: "Cause", label: "Cause", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 //
@@ -172,9 +172,9 @@ export default function Disease(props) {
                           dangerouslySetInnerHTML={{ __html: item.Decription }}
                         />
                       </TableCell>
-                      <TableCell align="left" width={750}>
+                      {/* <TableCell align="left" width={750}>
                         <div dangerouslySetInnerHTML={{ __html: item.Cause }} />
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell align="left" width={100}>
                         <DiseaseMoreMenu
                           IDDisease={item.IDDisease}

@@ -98,7 +98,7 @@ export default function BadgeDoctor(props) {
       >
         {data.map((item, idx) => {
           const isSeen = item.CheckNotification == 1;
-          const bgColor = isSeen ? "#64b5f6" : "#455a64";
+          const bgColor = isSeen ? "#80d6ff" : "#aeaeae";
 
           return (
             <MenuItem
