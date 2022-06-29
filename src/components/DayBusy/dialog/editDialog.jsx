@@ -98,7 +98,7 @@ export function EditDayBusyDialog(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
     >
-      <DialogTitle id="form-dialog-title">Edit doctor</DialogTitle>
+      <DialogTitle id="form-dialog-title">Edit day</DialogTitle>
 
       <DialogContent sx={{ minWidth: 500 }}>
         <Formik>
