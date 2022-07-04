@@ -44,8 +44,10 @@ import SearchBar from "material-ui-search-bar";
 const TABLE_HEAD = [
   // { id: "IDDoctor", label: "ID", alignRight: false },
   { id: "NameDoctor", label: "Name", alignRight: false },
+  { id: "Sex", label: "Gender", alignRight: false },
   { id: "Hospital", label: "Hospital", alignRight: false },
   { id: "Specialist", label: "Specialist", alignRight: false },
+  { id: "Phone", label: "Phone", alignRight: false },
   { id: "action", label: "Action", alignRight: false },
 ];
 
@@ -199,10 +201,16 @@ export default function Symptom(props) {
                         {item.NameDoctor}
                       </TableCell>
                       <TableCell align="left" width={750}>
+                        {item.sex}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
                         {item.Hospital}
                       </TableCell>
                       <TableCell align="left" width={750}>
                         {item.Specialist}
+                      </TableCell>
+                      <TableCell align="left" width={750}>
+                        {item.Phone}
                       </TableCell>
                       <TableCell align="left" width={100}>
                         <DoctorMoreMenu
